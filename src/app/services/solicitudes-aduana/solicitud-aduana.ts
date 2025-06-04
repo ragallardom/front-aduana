@@ -7,8 +7,8 @@ import { SolicitudAduana } from '../../models/solicitud-aduana';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitudAduanaService {
-  // Debe coincidir con @RequestMapping("/api/solicitudAduana") en tu backend
-  private readonly baseUrl = '/api/solicitudAduana';
+  // Debe coincidir con la ruta expuesta por el backend
+  private readonly baseUrl = '/api/solicitudes';
 
   constructor(private http: HttpClient) {}
 
