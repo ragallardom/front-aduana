@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet, RouterModule, CommonModule],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
 export class App {
   protected title = 'front-aduana';
