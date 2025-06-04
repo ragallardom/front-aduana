@@ -32,7 +32,7 @@ export class SolicitudAduanaService {
       new Blob([JSON.stringify(data)], { type: 'application/json' })
     );
 
-    // 2) Si tu controlador espera explicitamente un RequestParam("paisOrigen"):
+    // 2) Si tu controlador espera explícitamente un RequestParam("paisOrigen"):
     formData.append('paisOrigen', data.paisOrigen);
 
     // 3) Tipo de documento adjunto
