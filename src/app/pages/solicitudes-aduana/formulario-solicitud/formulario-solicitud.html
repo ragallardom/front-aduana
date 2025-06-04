@@ -1,0 +1,156 @@
+<!-- src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.component.html -->
+<div class="container">
+  <h2 class="mb-4">Registrar Nueva Solicitud Aduana</h2>
+
+  <!-- Mensaje de error general -->
+  <div *ngIf="errorMsg" class="alert alert-danger">
+    {{ errorMsg }}
+  </div>
+
+  <form [formGroup]="formulario" (ngSubmit)="guardar()">
+    <!-- Nombre del Solicitante -->
+    <div class="mb-3">
+      <label class="form-label">Nombre Solicitante</label>
+      <input
+        type="text"
+        formControlName="nombreSolicitante"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('nombreSolicitante')?.invalid &&
+          formulario.get('nombreSolicitante')?.touched
+        "
+        class="text-danger"
+      >
+        El nombre del solicitante es obligatorio.
+      </div>
+    </div>
+
+    <!-- Tipo de Documento -->
+    <div class="mb-3">
+      <label class="form-label">Tipo Documento</label>
+      <input
+        type="text"
+        formControlName="tipoDocumento"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('tipoDocumento')?.invalid &&
+          formulario.get('tipoDocumento')?.touched
+        "
+        class="text-danger"
+      >
+        El tipo de documento es obligatorio.
+      </div>
+    </div>
+
+    <!-- Número de Documento -->
+    <div class="mb-3">
+      <label class="form-label">Número Documento</label>
+      <input
+        type="text"
+        formControlName="numeroDocumento"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumento')?.invalid &&
+          formulario.get('numeroDocumento')?.touched
+        "
+        class="text-danger"
+      >
+        El número de documento es obligatorio.
+      </div>
+    </div>
+
+    <!-- Motivo -->
+    <div class="mb-3">
+      <label class="form-label">Motivo</label>
+      <input type="text" formControlName="motivo" class="form-control" />
+      <div
+        *ngIf="
+          formulario.get('motivo')?.invalid &&
+          formulario.get('motivo')?.touched
+        "
+        class="text-danger"
+      >
+        El motivo es obligatorio.
+      </div>
+    </div>
+
+    <!-- País de Origen -->
+    <div class="mb-3">
+      <label class="form-label">País Origen</label>
+      <input type="text" formControlName="paisOrigen" class="form-control" />
+      <div
+        *ngIf="
+          formulario.get('paisOrigen')?.invalid &&
+          formulario.get('paisOrigen')?.touched
+        "
+        class="text-danger"
+      >
+        El país de origen es obligatorio.
+      </div>
+    </div>
+
+    <!-- Tipo de Documento Adjunto -->
+    <div class="mb-3">
+      <label class="form-label">Tipo Documento Adjunto</label>
+      <select formControlName="tipoDocumentoAdjunto" class="form-select">
+        <option value="" disabled>-- Selecciona un tipo --</option>
+        <option
+          *ngFor="let tipo of tiposDeDocumentoAdjunto"
+          [value]="tipo"
+        >
+          {{ tipo }}
+        </option>
+      </select>
+      <div
+        *ngIf="
+          formulario.get('tipoDocumentoAdjunto')?.invalid &&
+          formulario.get('tipoDocumentoAdjunto')?.touched
+        "
+        class="text-danger"
+      >
+        Debes elegir un tipo de documento adjunto.
+      </div>
+    </div>
+
+    <!-- Archivo -->
+    <div class="mb-3">
+      <label class="form-label">Archivo (PDF, JPG, etc.)</label>
+      <input
+        type="file"
+        (change)="onFileChange($event)"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          !archivoSeleccionado &&
+          formulario.get('archivo')?.touched
+        "
+        class="text-danger"
+      >
+        Debes seleccionar un archivo.
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <button
+      type="submit"
+      class="btn btn-primary me-2"
+      [disabled]="formulario.invalid"
+    >
+      Guardar Solicitud
+    </button>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="router.navigate(['/solicitud-aduana'])"
+    >
+      Cancelar
+    </button>
+  </form>
+</div>
