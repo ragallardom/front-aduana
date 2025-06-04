@@ -1,4 +1,4 @@
-// src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.component.ts
+// src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.ts
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
