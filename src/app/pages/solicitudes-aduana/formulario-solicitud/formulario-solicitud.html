@@ -7,7 +7,10 @@
     {{ errorMsg }}
   </div>
 
-  <form [formGroup]="formulario" (ngSubmit)="guardar()">
+  <form
+    [formGroup]="formulario"
+    (ngSubmit)="guardar()"
+  >
     <!-- Nombre del Solicitante -->
     <div class="mb-3">
       <label class="form-label">Nombre Solicitante</label>
@@ -127,10 +130,7 @@
         class="form-control"
       />
       <div
-        *ngIf="
-          !archivoSeleccionado &&
-          formulario.get('archivo')?.touched
-        "
+        *ngIf="!archivoSeleccionado"
         class="text-danger"
       >
         Debes seleccionar un archivo.

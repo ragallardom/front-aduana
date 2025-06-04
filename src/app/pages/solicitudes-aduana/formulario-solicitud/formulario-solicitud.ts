@@ -72,17 +72,26 @@ export class FormularioSolicitudComponent implements OnInit {
     };
     const tipoAdj = f.tipoDocumentoAdjunto;
 
-    // Llamar al servicio
-    this.service.crearConAdjunto(payload, tipoAdj, this.archivoSeleccionado)
-      .subscribe({
-        next: () => {
-          // Al éxito, navegamos al listado
-          this.router.navigate(['/solicitud-aduana']);
-        },
-        error: err => {
-          console.error('Error al crear solicitud:', err);
-          this.errorMsg = 'Ocurrió un error al crear la solicitud.';
-        }
-      });
+    // Convertir archivo a Base64 para enviarlo como JSON
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      this.service
+        .crearConAdjunto(payload, tipoAdj, base64)
+        .subscribe({
+          next: () => {
+            // Al éxito, navegamos al listado
+            this.router.navigate(['/solicitud-aduana']);
+          },
+          error: (err) => {
+            console.error('Error al crear solicitud:', err);
+            this.errorMsg = 'Ocurrió un error al crear la solicitud.';
+          },
+        });
+    };
+    reader.onerror = () => {
+      this.errorMsg = 'No se pudo leer el archivo seleccionado.';
+    };
+    reader.readAsDataURL(this.archivoSeleccionado!);
   }
 }
