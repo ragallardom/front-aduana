@@ -7,42 +7,26 @@ import { SolicitudAduana } from '../../models/solicitud-aduana';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitudAduanaService {
-  
-  private readonly baseUrl = 'http://localhost:8080/api/solicitudes';
 
+  private readonly baseUrl = 'http://localhost:8080/api/solicitudes';
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Crea una nueva SolicitudAduana enviando multipart/form-data:
-   *  - 'solicitud': JSON con los campos básicos
-   *  - 'paisOrigen': se envía por separado (si tu backend lo requiere explícitamente)
-   *  - 'tipoDocumento': tipo de adjunto que identifica el archivo
-   *  - 'archivo': el File que seleccionó el usuario
+   * Envía la solicitud como JSON junto con el archivo codificado en Base64.
+   * Esto evita problemas de compatibilidad con multipart/form-data cuando el
+   * backend sólo acepta application/json.
    */
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
     tipoDocumento: string,
-    archivo: File
+    archivoBase64: string
   ): Observable<SolicitudAduana> {
-    const formData = new FormData();
-
-    // 1) Adjuntamos el JSON de la solicitud (sin los campos que el backend asigna)
-    formData.append(
-      'solicitud',
-      new Blob([JSON.stringify(data)], { type: 'application/json' })
-    );
-
-    // 2) Si tu controlador espera explícitamente un RequestParam("paisOrigen"):
-    formData.append('paisOrigen', data.paisOrigen);
-
-    // 3) Tipo de documento adjunto
-    formData.append('tipoDocumento', tipoDocumento);
-
-    // 4) El archivo en sí
-    formData.append('archivo', archivo, archivo.name);
-
-    // Hacemos POST y retornamos el Observable<SolicitudAduana>
-    return this.http.post<SolicitudAduana>(this.baseUrl, formData);
+    const payload = {
+      ...data,
+      tipoDocumentoAdjunto: tipoDocumento,
+      archivoBase64
+    };
+    return this.http.post<SolicitudAduana>(this.baseUrl, payload);
   }
 }
