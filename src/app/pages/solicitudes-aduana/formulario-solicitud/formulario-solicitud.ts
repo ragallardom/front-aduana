@@ -32,6 +32,11 @@ export class FormularioSolicitudComponent implements OnInit {
   ngOnInit(): void {
     // 1) Construimos el FormGroup con validaciones
     this.formulario = this.fb.group({
+      nombrePadreMadre: ['', Validators.required],
+      relacionMenor: ['', Validators.required],
+      documentoPadre: ['', Validators.required],
+      telefonoPadre: ['', Validators.required],
+      emailPadre: ['', [Validators.required, Validators.email]],
       nombreSolicitante: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
       numeroDocumento: ['', Validators.required],
