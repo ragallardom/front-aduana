@@ -1,7 +1,7 @@
 // src/app/services/solicitudes-aduana/solicitud-aduana.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SolicitudAduana } from '../../models/solicitud-aduana';
 
@@ -21,20 +21,31 @@ export class SolicitudAduanaService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Envía la solicitud como JSON junto con el archivo codificado en Base64.
-   * Esto evita problemas de compatibilidad con multipart/form-data cuando el
-   * backend sólo acepta application/json.
+   * Envía la solicitud como datos codificados en `application/x-www-form-urlencoded`.
+   * El archivo se envía en Base64 para evitar problemas de compatibilidad con
+   * `multipart/form-data`.
    */
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
     tipoDocumento: string,
     archivoBase64: string
   ): Observable<SolicitudAduana> {
-    const payload = {
-      ...data,
-      tipoDocumentoAdjunto: tipoDocumento,
-      archivoBase64
-    };
-    return this.http.post<SolicitudAduana>(this.baseUrl, payload);
+    const params = new HttpParams({
+      fromObject: {
+        nombreSolicitante: data.nombreSolicitante,
+        tipoDocumento: data.tipoDocumento,
+        numeroDocumento: data.numeroDocumento,
+        motivo: data.motivo,
+        paisOrigen: data.paisOrigen,
+        tipoDocumentoAdjunto: tipoDocumento,
+        archivoBase64
+      }
+    });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    return this.http.post<SolicitudAduana>(this.baseUrl, params.toString(), {
+      headers
+    });
   }
 }
