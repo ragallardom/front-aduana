@@ -21,7 +21,7 @@ export class FormularioSolicitudComponent implements OnInit {
   archivoSeleccionado: File | null = null;
 
   // Define los posibles tipos de adjunto (ajusta según tu backend)
-  tiposDeDocumentoAdjunto = ['comprobante', 'manifiesto', 'factura'];
+  tiposAdjunto = ['comprobante', 'manifiesto', 'factura'];
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +37,7 @@ export class FormularioSolicitudComponent implements OnInit {
       numeroDocumento: ['', Validators.required],
       motivo: ['', Validators.required],
       paisOrigen: ['', Validators.required],
-      tipoDocumentoAdjunto: ['', Validators.required],
+      tipoAdjunto: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
     });
   }
@@ -70,7 +70,7 @@ export class FormularioSolicitudComponent implements OnInit {
       motivo: f.motivo,
       paisOrigen: f.paisOrigen
     };
-    const tipoAdj = f.tipoDocumentoAdjunto;
+    const tipoAdj = f.tipoAdjunto;
 
     // Convertir archivo a Base64 para enviarlo como JSON
     const reader = new FileReader();
