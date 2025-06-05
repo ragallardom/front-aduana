@@ -127,10 +127,7 @@
         class="form-control"
       />
       <div
-        *ngIf="
-          !archivoSeleccionado &&
-          formulario.get('archivo')?.touched
-        "
+        *ngIf="!archivoSeleccionado"
         class="text-danger"
       >
         Debes seleccionar un archivo.
@@ -148,7 +145,7 @@
     <button
       type="button"
       class="btn btn-secondary"
-      (click)="router.navigate(['/solicitud-aduana'])"
+      (click)="cancelar()"
     >
       Cancelar
     </button>
