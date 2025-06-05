@@ -13,7 +13,6 @@
   >
     <!-- Datos del menor -->
     <div
-      *ngIf="datosMenorVisible"
       class="section-wrapper mb-4"
       [@expandCollapse]="datosMenorVisible ? 'expanded' : 'collapsed'"
     >
@@ -245,7 +244,6 @@
 
     <!-- Datos de los padres o tutores legales -->
     <div
-      *ngIf="datosPadreVisible"
       class="section-wrapper mb-4"
       [@expandCollapse]="datosPadreVisible ? 'expanded' : 'collapsed'"
     >
