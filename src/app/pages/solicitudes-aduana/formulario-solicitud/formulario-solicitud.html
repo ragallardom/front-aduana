@@ -198,14 +198,71 @@
         </div>
       </div>
 
+      </fieldset>
+    </div>
+  <div
+    *ngIf="!datosMenorVisible"
+    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+    (click)="toggleMenor()"
+  >
+    <span>Datos del menor</span>
+    <span class="toggle-arrow">&#9660;</span>
+  </div>
+
+  <!-- Detalles del viaje -->
+  <div
+    class="section-wrapper mb-4"
+    [@expandCollapse]="datosViajeVisible ? 'expanded' : 'collapsed'"
+  >
+    <fieldset>
+      <legend class="fs-5 d-flex justify-content-between align-items-center">
+        <span>Detalles del viaje</span>
+        <button
+          type="button"
+          class="toggle-btn"
+          aria-label="Minimizar"
+          (click)="toggleViaje()"
+        >
+          <span [class.rotated]="datosViajeVisible">&#9660;</span>
+        </button>
+      </legend>
+
+      <!-- Fecha de viaje -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de viaje</label>
+        <input type="date" formControlName="fechaViaje" class="form-control" />
+        <div
+          *ngIf="formulario.get('fechaViaje')?.invalid && formulario.get('fechaViaje')?.touched"
+          class="text-danger"
+        >
+          La fecha de viaje es obligatoria.
+        </div>
+      </div>
+
+      <!-- Número de vuelo / barco / bus -->
+      <div class="mb-3">
+        <label class="form-label">Número de vuelo / barco / bus</label>
+        <input
+          type="text"
+          formControlName="numeroTransporte"
+          class="form-control"
+        />
+        <div
+          *ngIf="formulario.get('numeroTransporte')?.invalid && formulario.get('numeroTransporte')?.touched"
+          class="text-danger"
+        >
+          El número de transporte es obligatorio.
+        </div>
+      </div>
+
       <!-- País de Origen (solo entrada) -->
       <div class="mb-3" *ngIf="formulario.get('tipoSolicitudMenor')?.value === 'Entrada'">
         <label class="form-label">País de Origen</label>
         <select formControlName="paisOrigen" class="form-select">
           <option value="" disabled>-- Selecciona --</option>
           <option value="Argentina">Argentina</option>
+          <option value="Brasil">Brasil</option>
           <option value="Perú">Perú</option>
-          <option value="Bolivia">Bolivia</option>
         </select>
         <div
           *ngIf="formulario.get('paisOrigen')?.invalid && formulario.get('paisOrigen')?.touched"
@@ -221,8 +278,8 @@
         <select formControlName="paisDestino" class="form-select">
           <option value="" disabled>-- Selecciona --</option>
           <option value="Argentina">Argentina</option>
+          <option value="Brasil">Brasil</option>
           <option value="Perú">Perú</option>
-          <option value="Bolivia">Bolivia</option>
         </select>
         <div
           *ngIf="formulario.get('paisDestino')?.invalid && formulario.get('paisDestino')?.touched"
@@ -231,18 +288,35 @@
           El país de destino es obligatorio.
         </div>
       </div>
-      </fieldset>
-    </div>
-    <div
-      *ngIf="!datosMenorVisible"
-      class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-      (click)="toggleMenor()"
-    >
-      <span>Datos del menor</span>
-      <span class="toggle-arrow">&#9660;</span>
-    </div>
 
-    <!-- Datos de los padres o tutores legales -->
+      <!-- Motivo del viaje -->
+      <div class="mb-3">
+        <label class="form-label">Motivo del viaje</label>
+        <select formControlName="motivoViaje" class="form-select">
+          <option value="" disabled>-- Selecciona --</option>
+          <option value="Vacaciones">Vacaciones</option>
+          <option value="Estudios">Estudios</option>
+          <option value="Visita familiar">Visita familiar</option>
+        </select>
+        <div
+          *ngIf="formulario.get('motivoViaje')?.invalid && formulario.get('motivoViaje')?.touched"
+          class="text-danger"
+        >
+          El motivo del viaje es obligatorio.
+        </div>
+      </div>
+    </fieldset>
+  </div>
+  <div
+    *ngIf="!datosViajeVisible"
+    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+    (click)="toggleViaje()"
+  >
+    <span>Detalles del viaje</span>
+    <span class="toggle-arrow">&#9660;</span>
+  </div>
+
+  <!-- Datos de los padres o tutores legales -->
     <div
       class="section-wrapper mb-4"
       [@expandCollapse]="datosPadreVisible ? 'expanded' : 'collapsed'"
