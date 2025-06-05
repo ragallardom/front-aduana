@@ -32,18 +32,32 @@
 
     <!-- Tipo de Documento -->
     <div class="mb-3">
-      <label class="form-label">Tipo Documento</label>
-      <input
-        type="text"
-        formControlName="tipoDocumento"
-        class="form-control"
-      />
+      <label class="form-label d-block">Tipo Documento</label>
+      <div class="btn-group" role="group" aria-label="Tipo Documento">
+        <input
+          type="radio"
+          class="btn-check"
+          formControlName="tipoDocumento"
+          value="RUT"
+          id="tipo-rut"
+        />
+        <label class="btn btn-outline-primary" for="tipo-rut">RUT</label>
+
+        <input
+          type="radio"
+          class="btn-check"
+          formControlName="tipoDocumento"
+          value="Pasaporte"
+          id="tipo-pasaporte"
+        />
+        <label class="btn btn-outline-primary" for="tipo-pasaporte">Pasaporte</label>
+      </div>
       <div
         *ngIf="
           formulario.get('tipoDocumento')?.invalid &&
           formulario.get('tipoDocumento')?.touched
         "
-        class="text-danger"
+        class="text-danger mt-1"
       >
         El tipo de documento es obligatorio.
       </div>
