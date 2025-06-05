@@ -75,7 +75,7 @@ export class FormularioSolicitudComponent implements OnInit {
     // Convertir archivo a Base64 para enviarlo como JSON
     const reader = new FileReader();
     reader.onload = () => {
-      const base64 = reader.result as string;
+      const base64 = (reader.result as string).split(',')[1];
       this.service
         .crearConAdjunto(payload, tipoAdj, base64)
         .subscribe({
@@ -93,5 +93,9 @@ export class FormularioSolicitudComponent implements OnInit {
       this.errorMsg = 'No se pudo leer el archivo seleccionado.';
     };
     reader.readAsDataURL(this.archivoSeleccionado!);
+  }
+
+  cancelar(): void {
+    this.router.navigate(['/solicitud-aduana']);
   }
 }
