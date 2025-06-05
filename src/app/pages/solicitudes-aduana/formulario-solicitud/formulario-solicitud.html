@@ -356,74 +356,7 @@
       </div>
     </div>
 
-    <!-- Tipo de Documento -->
-    <div class="mb-3">
-      <label class="form-label d-block">Tipo Documento</label>
-      <div class="btn-group" role="group" aria-label="Tipo Documento">
-        <input
-          type="radio"
-          class="btn-check"
-          formControlName="tipoDocumento"
-          value="RUT"
-          id="tipo-rut"
-        />
-        <label class="btn btn-outline-primary" for="tipo-rut">RUT</label>
-
-        <input
-          type="radio"
-          class="btn-check"
-          formControlName="tipoDocumento"
-          value="Pasaporte"
-          id="tipo-pasaporte"
-        />
-        <label class="btn btn-outline-primary" for="tipo-pasaporte">Pasaporte</label>
-      </div>
-      <div
-        *ngIf="
-          formulario.get('tipoDocumento')?.invalid &&
-          formulario.get('tipoDocumento')?.touched
-        "
-        class="text-danger mt-1"
-      >
-        El tipo de documento es obligatorio.
-      </div>
-    </div>
-
-    <!-- Número de Documento -->
-    <div class="mb-3" *ngIf="formulario.get('tipoDocumento')?.value === 'RUT'">
-      <label class="form-label">RUT</label>
-      <input
-        type="text"
-        formControlName="numeroDocumento"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          formulario.get('numeroDocumento')?.invalid &&
-          formulario.get('numeroDocumento')?.touched
-        "
-        class="text-danger"
-      >
-        Ingresa un RUT válido.
-      </div>
-    </div>
-    <div class="mb-3" *ngIf="formulario.get('tipoDocumento')?.value === 'Pasaporte'">
-      <label class="form-label">Número Pasaporte</label>
-      <input
-        type="text"
-        formControlName="numeroDocumento"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          formulario.get('numeroDocumento')?.invalid &&
-          formulario.get('numeroDocumento')?.touched
-        "
-        class="text-danger"
-      >
-        El número de pasaporte es obligatorio.
-      </div>
-    </div>
+    <!-- Tipo de Documento (eliminado) -->
 
     <!-- Motivo -->
     <div class="mb-3">

@@ -68,23 +68,11 @@ export class FormularioSolicitudComponent implements OnInit {
       numeroDocumentoMenor: ['', Validators.required],
       nacionalidadMenor: ['', Validators.required],
       nombreSolicitante: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
-      numeroDocumento: ['', Validators.required],
       numeroDocumentoPadre: ['', Validators.required],
       motivo: ['', Validators.required],
       paisOrigen: ['', Validators.required],
       tipoAdjunto: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
-    });
-
-    this.formulario.get('tipoDocumento')?.valueChanges.subscribe((tipo) => {
-      const control = this.formulario.get('numeroDocumento');
-      if (tipo === 'RUT') {
-        control?.setValidators([Validators.required, rutValidator]);
-      } else {
-        control?.setValidators([Validators.required]);
-      }
-      control?.updateValueAndValidity();
     });
 
     this.formulario.get('documentoPadre')?.valueChanges.subscribe((tipo) => {
@@ -129,12 +117,13 @@ export class FormularioSolicitudComponent implements OnInit {
 
     // Construir payload con los campos básicos
     const f = this.formulario.value;
-    const payload: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'> = {
+    const payload: Omit<
+      SolicitudAduana,
+      'id' | 'estado' | 'fechaCreacion' | 'tipoDocumento' | 'numeroDocumento'
+    > = {
       nombreSolicitante: f.nombreSolicitante,
-      tipoDocumento: f.tipoDocumento,
-      numeroDocumento: f.numeroDocumento,
       motivo: f.motivo,
-      paisOrigen: f.paisOrigen
+      paisOrigen: f.paisOrigen,
     };
     const tipoAdj = f.tipoAdjunto;
 
