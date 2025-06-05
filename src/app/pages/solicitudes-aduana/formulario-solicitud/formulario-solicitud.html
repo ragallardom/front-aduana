@@ -90,22 +90,38 @@
         </div>
       </div>
 
-      <!-- RUT o Número de pasaporte -->
+      <!-- Tipo Documento del menor -->
       <div class="mb-3">
-        <label class="form-label">RUT o Número de pasaporte</label>
-        <input
-          type="text"
-          formControlName="documentoMenor"
-          class="form-control"
-        />
+        <label class="form-label d-block">Documento del menor</label>
+        <div class="btn-group" role="group" aria-label="Tipo Documento Menor">
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="documentoMenor"
+            value="RUT"
+            id="menor-rut"
+          />
+          <label class="btn btn-outline-primary" for="menor-rut">RUT</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="documentoMenor"
+            value="Pasaporte"
+            id="menor-pasaporte"
+          />
+          <label class="btn btn-outline-primary" for="menor-pasaporte"
+            >Pasaporte</label
+          >
+        </div>
         <div
           *ngIf="
             formulario.get('documentoMenor')?.invalid &&
             formulario.get('documentoMenor')?.touched
           "
-          class="text-danger"
+          class="text-danger mt-1"
         >
-          El documento es obligatorio.
+          Debes seleccionar el documento.
         </div>
       </div>
 
@@ -177,22 +193,38 @@
         </div>
       </div>
 
-      <!-- Documento del padre o tutor -->
+      <!-- Tipo Documento del padre o tutor -->
       <div class="mb-3">
-        <label class="form-label">RUT o Pasaporte</label>
-        <input
-          type="text"
-          formControlName="documentoPadre"
-          class="form-control"
-        />
+        <label class="form-label d-block">Documento del padre o tutor</label>
+        <div class="btn-group" role="group" aria-label="Tipo Documento Padre">
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="documentoPadre"
+            value="RUT"
+            id="padre-rut"
+          />
+          <label class="btn btn-outline-primary" for="padre-rut">RUT</label>
+
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="documentoPadre"
+            value="Pasaporte"
+            id="padre-pasaporte"
+          />
+          <label class="btn btn-outline-primary" for="padre-pasaporte"
+            >Pasaporte</label
+          >
+        </div>
         <div
           *ngIf="
             formulario.get('documentoPadre')?.invalid &&
             formulario.get('documentoPadre')?.touched
           "
-          class="text-danger"
+          class="text-danger mt-1"
         >
-          El documento es obligatorio.
+          Debes seleccionar el documento.
         </div>
       </div>
 
