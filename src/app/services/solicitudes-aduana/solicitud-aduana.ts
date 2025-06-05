@@ -1,7 +1,7 @@
 // src/app/services/solicitudes-aduana/solicitud-aduana.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SolicitudAduana } from '../../models/solicitud-aduana';
 
@@ -21,31 +21,23 @@ export class SolicitudAduanaService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Envía la solicitud como datos codificados en `application/x-www-form-urlencoded`.
-   * El archivo se envía en Base64 para evitar problemas de compatibilidad con
-   * `multipart/form-data`.
+   * Envía la solicitud utilizando `multipart/form-data`.
    */
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
     tipoAdjunto: string,
-    archivoBase64: string
+    archivo: File
   ): Observable<SolicitudAduana> {
-    const params = new HttpParams({
-      fromObject: {
-        nombreSolicitante: data.nombreSolicitante,
-        tipoDocumento: data.tipoDocumento,
-        numeroDocumento: data.numeroDocumento,
-        motivo: data.motivo,
-        paisOrigen: data.paisOrigen,
-        tipoAdjunto,
-        archivoBase64
-      }
-    });
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded'
-    });
-    return this.http.post<SolicitudAduana>(this.baseUrl, params.toString(), {
-      headers
-    });
+    const formData = new FormData();
+    formData.append('nombreSolicitante', data.nombreSolicitante);
+    formData.append('tipoDocumento', data.tipoDocumento);
+    formData.append('numeroDocumento', data.numeroDocumento);
+    formData.append('motivo', data.motivo);
+    formData.append('paisOrigen', data.paisOrigen);
+    formData.append('tipoAdjunto', tipoAdjunto);
+    formData.append('archivo', archivo, archivo.name);
+
+    return this.http.post<SolicitudAduana>(this.baseUrl, formData);
   }
 }
+
