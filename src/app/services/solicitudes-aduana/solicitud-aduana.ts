@@ -9,38 +9,32 @@ import { SolicitudAduana } from '../../models/solicitud-aduana';
 export class SolicitudAduanaService {
 
   /**
-   * Endpoint para crear solicitudes con adjunto.
+   * Base URL para las solicitudes de la API.
    *
-   * Se mantiene relativa para aprovechar el proxy de desarrollo
-   * (`proxy.conf.json`) y evitar problemas de CORS en entornos locales.
-   * Cuando se despliegue a producción puede apuntar a la URL absoluta
-   * correspondiente.
+   * Se deja relativa para aprovechar el proxy de desarrollo
+   * (proxy.conf.json) y evitar problemas de CORS en entornos
+   * locales. Cuando se despliegue a producción puede apuntar a la
+   * URL absoluta correspondiente.
    */
   private readonly baseUrl = '/api/solicitudes/adjuntar';
 
   constructor(private http: HttpClient) {}
 
   /**
-   * Envía la solicitud utilizando `multipart/form-data`.
+   * Envía la solicitud como JSON junto con el archivo codificado en Base64.
+   * Esto evita problemas de compatibilidad con multipart/form-data cuando el
+   * backend sólo acepta application/json.
    */
   crearConAdjunto(
-    data: Pick<SolicitudAduana, 'paisOrigen' | 'paisDestino'>,
-    tipoAdjunto?: string,
-    archivo?: File
+    data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
+    tipoDocumento: string,
+    archivoBase64: string
   ): Observable<SolicitudAduana> {
-    const formData = new FormData();
-    formData.append('paisOrigen', data.paisOrigen);
-    if (data.paisDestino) {
-      formData.append('paisDestino', data.paisDestino);
-    }
-    if (tipoAdjunto) {
-      formData.append('tipoAdjunto', tipoAdjunto);
-    }
-    if (archivo) {
-      formData.append('archivo', archivo, archivo.name);
-    }
-
-    return this.http.post<SolicitudAduana>(this.baseUrl, formData);
+    const payload = {
+      ...data,
+      tipoDocumentoAdjunto: tipoDocumento,
+      archivoBase64
+    };
+    return this.http.post<SolicitudAduana>(this.baseUrl, payload);
   }
 }
-
