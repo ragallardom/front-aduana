@@ -200,6 +200,23 @@
           El país de origen es obligatorio.
         </div>
       </div>
+
+      <!-- País de Destino (solo salida) -->
+      <div class="mb-3" *ngIf="formulario.get('tipoSolicitudMenor')?.value === 'Salida'">
+        <label class="form-label">País de Destino</label>
+        <select formControlName="paisDestino" class="form-select">
+          <option value="" disabled>-- Selecciona --</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Perú">Perú</option>
+          <option value="Bolivia">Bolivia</option>
+        </select>
+        <div
+          *ngIf="formulario.get('paisDestino')?.invalid && formulario.get('paisDestino')?.touched"
+          class="text-danger"
+        >
+          El país de destino es obligatorio.
+        </div>
+      </div>
     </fieldset>
 
     <!-- Datos de los padres o tutores legales -->
