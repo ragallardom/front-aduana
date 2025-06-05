@@ -27,14 +27,18 @@ export class SolicitudAduanaService {
    */
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
-    tipoDocumento: string,
-    archivoBase64: string
+    tipoDocumento = '',
+    archivoBase64 = ''
   ): Observable<SolicitudAduana> {
-    const payload = {
+    const payload: any = {
       ...data,
-      tipoDocumentoAdjunto: tipoDocumento,
-      archivoBase64
     };
+    if (tipoDocumento) {
+      payload.tipoDocumentoAdjunto = tipoDocumento;
+    }
+    if (archivoBase64) {
+      payload.archivoBase64 = archivoBase64;
+    }
     return this.http.post<SolicitudAduana>(this.baseUrl, payload);
   }
 }
