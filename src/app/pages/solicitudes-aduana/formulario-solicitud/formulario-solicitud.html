@@ -11,107 +11,6 @@
     [formGroup]="formulario"
     (ngSubmit)="guardar()"
   >
-    <!-- Datos de los padres o tutores legales -->
-    <fieldset class="mb-4">
-      <legend class="fs-5">Datos de los padres o tutores legales</legend>
-
-      <!-- Nombre completo del padre/madre -->
-      <div class="mb-3">
-        <label class="form-label">Nombre completo (Padre/Madre)</label>
-        <input
-          type="text"
-          formControlName="nombrePadreMadre"
-          class="form-control"
-        />
-        <div
-          *ngIf="
-            formulario.get('nombrePadreMadre')?.invalid &&
-            formulario.get('nombrePadreMadre')?.touched
-          "
-          class="text-danger"
-        >
-          El nombre es obligatorio.
-        </div>
-      </div>
-
-      <!-- Relación con el menor -->
-      <div class="mb-3">
-        <label class="form-label">Relación con el menor</label>
-        <select formControlName="relacionMenor" class="form-select">
-          <option value="" disabled>-- Selecciona --</option>
-          <option value="Padre">Padre</option>
-          <option value="Madre">Madre</option>
-          <option value="Tutor legal">Tutor legal</option>
-        </select>
-        <div
-          *ngIf="
-            formulario.get('relacionMenor')?.invalid &&
-            formulario.get('relacionMenor')?.touched
-          "
-          class="text-danger"
-        >
-          Debes indicar la relación con el menor.
-        </div>
-      </div>
-
-      <!-- Documento del padre o tutor -->
-      <div class="mb-3">
-        <label class="form-label">RUT o Pasaporte</label>
-        <input
-          type="text"
-          formControlName="documentoPadre"
-          class="form-control"
-        />
-        <div
-          *ngIf="
-            formulario.get('documentoPadre')?.invalid &&
-            formulario.get('documentoPadre')?.touched
-          "
-          class="text-danger"
-        >
-          El documento es obligatorio.
-        </div>
-      </div>
-
-      <!-- Teléfono -->
-      <div class="mb-3">
-        <label class="form-label">Teléfono de contacto</label>
-        <input
-          type="text"
-          formControlName="telefonoPadre"
-          class="form-control"
-        />
-        <div
-          *ngIf="
-            formulario.get('telefonoPadre')?.invalid &&
-            formulario.get('telefonoPadre')?.touched
-          "
-          class="text-danger"
-        >
-          El teléfono es obligatorio.
-        </div>
-      </div>
-
-      <!-- Email -->
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input
-          type="email"
-          formControlName="emailPadre"
-          class="form-control"
-        />
-        <div
-          *ngIf="
-            formulario.get('emailPadre')?.invalid &&
-            formulario.get('emailPadre')?.touched
-          "
-          class="text-danger"
-        >
-          Ingresa un email válido.
-        </div>
-      </div>
-    </fieldset>
-
     <!-- Datos del menor -->
     <fieldset class="mb-4">
       <legend class="fs-5">Datos del menor</legend>
@@ -231,6 +130,107 @@
           class="text-danger"
         >
           Debes seleccionar la nacionalidad.
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Datos de los padres o tutores legales -->
+    <fieldset class="mb-4">
+      <legend class="fs-5">Datos de los padres o tutores legales</legend>
+
+      <!-- Nombre completo del padre/madre -->
+      <div class="mb-3">
+        <label class="form-label">Nombre completo (Padre/Madre)</label>
+        <input
+          type="text"
+          formControlName="nombrePadreMadre"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('nombrePadreMadre')?.invalid &&
+            formulario.get('nombrePadreMadre')?.touched
+          "
+          class="text-danger"
+        >
+          El nombre es obligatorio.
+        </div>
+      </div>
+
+      <!-- Relación con el menor -->
+      <div class="mb-3">
+        <label class="form-label">Relación con el menor</label>
+        <select formControlName="relacionMenor" class="form-select">
+          <option value="" disabled>-- Selecciona --</option>
+          <option value="Padre">Padre</option>
+          <option value="Madre">Madre</option>
+          <option value="Tutor legal">Tutor legal</option>
+        </select>
+        <div
+          *ngIf="
+            formulario.get('relacionMenor')?.invalid &&
+            formulario.get('relacionMenor')?.touched
+          "
+          class="text-danger"
+        >
+          Debes indicar la relación con el menor.
+        </div>
+      </div>
+
+      <!-- Documento del padre o tutor -->
+      <div class="mb-3">
+        <label class="form-label">RUT o Pasaporte</label>
+        <input
+          type="text"
+          formControlName="documentoPadre"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('documentoPadre')?.invalid &&
+            formulario.get('documentoPadre')?.touched
+          "
+          class="text-danger"
+        >
+          El documento es obligatorio.
+        </div>
+      </div>
+
+      <!-- Teléfono -->
+      <div class="mb-3">
+        <label class="form-label">Teléfono de contacto</label>
+        <input
+          type="text"
+          formControlName="telefonoPadre"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('telefonoPadre')?.invalid &&
+            formulario.get('telefonoPadre')?.touched
+          "
+          class="text-danger"
+        >
+          El teléfono es obligatorio.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input
+          type="email"
+          formControlName="emailPadre"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('emailPadre')?.invalid &&
+            formulario.get('emailPadre')?.touched
+          "
+          class="text-danger"
+        >
+          Ingresa un email válido.
         </div>
       </div>
     </fieldset>
