@@ -8,7 +8,15 @@ import { SolicitudAduana } from '../../models/solicitud-aduana';
 @Injectable({ providedIn: 'root' })
 export class SolicitudAduanaService {
 
-  private readonly baseUrl = 'http://localhost:8080/api/solicitudes';
+  /**
+   * Base URL para las solicitudes de la API.
+   *
+   * Se deja relativa para aprovechar el proxy de desarrollo
+   * (proxy.conf.json) y evitar problemas de CORS en entornos
+   * locales. Cuando se despliegue a producción puede apuntar a la
+   * URL absoluta correspondiente.
+   */
+  private readonly baseUrl = '/api/solicitudes';
 
   constructor(private http: HttpClient) {}
 
