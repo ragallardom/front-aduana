@@ -1,0 +1,17 @@
+// Estilos para las secciones colapsables del formulario
+.section-wrapper {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+}
+
+.section-collapsed {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+}
