@@ -262,7 +262,7 @@
           "
           class="text-danger"
         >
-          Ingresa un email válido.
+          Ingresa un correo electrónico válido.
         </div>
       </div>
     </fieldset>
@@ -320,8 +320,8 @@
     </div>
 
     <!-- Número de Documento -->
-    <div class="mb-3">
-      <label class="form-label">Número Documento</label>
+    <div class="mb-3" *ngIf="formulario.get('tipoDocumento')?.value === 'RUT'">
+      <label class="form-label">RUT</label>
       <input
         type="text"
         formControlName="numeroDocumento"
@@ -334,7 +334,24 @@
         "
         class="text-danger"
       >
-        El número de documento es obligatorio.
+        Ingresa un RUT válido.
+      </div>
+    </div>
+    <div class="mb-3" *ngIf="formulario.get('tipoDocumento')?.value === 'Pasaporte'">
+      <label class="form-label">Número Pasaporte</label>
+      <input
+        type="text"
+        formControlName="numeroDocumento"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumento')?.invalid &&
+          formulario.get('numeroDocumento')?.touched
+        "
+        class="text-danger"
+      >
+        El número de pasaporte es obligatorio.
       </div>
     </div>
 
