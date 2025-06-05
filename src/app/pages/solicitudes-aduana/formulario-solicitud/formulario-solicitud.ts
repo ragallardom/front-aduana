@@ -50,7 +50,13 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
       ),
       state(
         'collapsed',
-        style({ height: '0px', opacity: 0, overflow: 'hidden' })
+        style({
+          height: '0px',
+          opacity: 0,
+          overflow: 'hidden',
+          margin: '0',
+          padding: '0'
+        })
       ),
       transition('expanded <=> collapsed', animate('200ms ease')),
     ]),
