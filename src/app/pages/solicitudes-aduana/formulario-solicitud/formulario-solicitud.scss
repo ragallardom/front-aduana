@@ -15,3 +15,20 @@
   margin-bottom: 1.5rem;
   background-color: #f8f9fa;
 }
+
+.toggle-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.toggle-btn span,
+.toggle-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.toggle-btn span.rotated {
+  transform: rotate(180deg);
+}

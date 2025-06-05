@@ -12,11 +12,22 @@
     (ngSubmit)="guardar()"
   >
     <!-- Datos del menor -->
-    <div *ngIf="datosMenorVisible" class="section-wrapper mb-4">
+    <div
+      *ngIf="datosMenorVisible"
+      class="section-wrapper mb-4"
+      [@expandCollapse]="datosMenorVisible ? 'expanded' : 'collapsed'"
+    >
       <fieldset>
         <legend class="fs-5 d-flex justify-content-between align-items-center">
           <span>Datos del menor</span>
-          <button type="button" class="btn-close" aria-label="Minimizar" (click)="toggleMenor()"></button>
+          <button
+            type="button"
+            class="toggle-btn"
+            aria-label="Minimizar"
+            (click)="toggleMenor()"
+          >
+            <span [class.rotated]="datosMenorVisible">&#9660;</span>
+          </button>
         </legend>
 
       <!-- Tipo de solicitud -->
@@ -223,16 +234,32 @@
       </div>
       </fieldset>
     </div>
-    <div *ngIf="!datosMenorVisible" class="section-collapsed mb-4" (click)="toggleMenor()">
-      Datos del menor
+    <div
+      *ngIf="!datosMenorVisible"
+      class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+      (click)="toggleMenor()"
+    >
+      <span>Datos del menor</span>
+      <span class="toggle-arrow">&#9660;</span>
     </div>
 
     <!-- Datos de los padres o tutores legales -->
-    <div *ngIf="datosPadreVisible" class="section-wrapper mb-4">
+    <div
+      *ngIf="datosPadreVisible"
+      class="section-wrapper mb-4"
+      [@expandCollapse]="datosPadreVisible ? 'expanded' : 'collapsed'"
+    >
       <fieldset>
         <legend class="fs-5 d-flex justify-content-between align-items-center">
           <span>Datos de los padres o tutores legales</span>
-          <button type="button" class="btn-close" aria-label="Minimizar" (click)="togglePadre()"></button>
+          <button
+            type="button"
+            class="toggle-btn"
+            aria-label="Minimizar"
+            (click)="togglePadre()"
+          >
+            <span [class.rotated]="datosPadreVisible">&#9660;</span>
+          </button>
         </legend>
 
       <!-- Nombre completo del padre/madre -->
@@ -383,8 +410,13 @@
       </div>
       </fieldset>
     </div>
-    <div *ngIf="!datosPadreVisible" class="section-collapsed mb-4" (click)="togglePadre()">
-      Datos de los padres o tutores legales
+    <div
+      *ngIf="!datosPadreVisible"
+      class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+      (click)="togglePadre()"
+    >
+      <span>Datos de los padres o tutores legales</span>
+      <span class="toggle-arrow">&#9660;</span>
     </div>
 
 
