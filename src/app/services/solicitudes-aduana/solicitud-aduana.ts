@@ -24,12 +24,15 @@ export class SolicitudAduanaService {
    * Envía la solicitud utilizando `multipart/form-data`.
    */
   crearConAdjunto(
-    data: Pick<SolicitudAduana, 'paisOrigen'>,
+    data: Pick<SolicitudAduana, 'paisOrigen' | 'paisDestino'>,
     tipoAdjunto?: string,
     archivo?: File
   ): Observable<SolicitudAduana> {
     const formData = new FormData();
     formData.append('paisOrigen', data.paisOrigen);
+    if (data.paisDestino) {
+      formData.append('paisDestino', data.paisDestino);
+    }
     if (tipoAdjunto) {
       formData.append('tipoAdjunto', tipoAdjunto);
     }

@@ -65,6 +65,7 @@ export class FormularioSolicitudComponent implements OnInit {
       nacionalidadMenor: ['', Validators.required],
       numeroDocumentoPadre: ['', Validators.required],
       paisOrigen: ['', Validators.required],
+      paisDestino: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
     });
 
@@ -87,6 +88,25 @@ export class FormularioSolicitudComponent implements OnInit {
       }
       control?.updateValueAndValidity();
     });
+
+    this.formulario.get('tipoSolicitudMenor')?.valueChanges.subscribe((tipo) => {
+      const paisOrigenCtrl = this.formulario.get('paisOrigen');
+      const paisDestinoCtrl = this.formulario.get('paisDestino');
+      if (tipo === 'Entrada') {
+        paisOrigenCtrl?.setValidators([Validators.required]);
+        paisDestinoCtrl?.clearValidators();
+        paisDestinoCtrl?.setValue('');
+      } else if (tipo === 'Salida') {
+        paisDestinoCtrl?.setValidators([Validators.required]);
+        paisOrigenCtrl?.clearValidators();
+        paisOrigenCtrl?.setValue('');
+      } else {
+        paisOrigenCtrl?.clearValidators();
+        paisDestinoCtrl?.clearValidators();
+      }
+      paisOrigenCtrl?.updateValueAndValidity();
+      paisDestinoCtrl?.updateValueAndValidity();
+    });
   }
 
   // Manejo del submit
@@ -98,8 +118,9 @@ export class FormularioSolicitudComponent implements OnInit {
     }
     // Construir payload con los campos básicos
     const f = this.formulario.value;
-    const payload: Pick<SolicitudAduana, 'paisOrigen'> = {
+    const payload: Pick<SolicitudAduana, 'paisOrigen' | 'paisDestino'> = {
       paisOrigen: f.paisOrigen,
+      paisDestino: f.paisDestino,
     };
 
     this.service
