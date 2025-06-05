@@ -67,6 +67,7 @@ export class FormularioSolicitudComponent implements OnInit {
   errorMsg = '';
   datosMenorVisible = false;
   datosPadreVisible = false;
+  datosViajeVisible = false;
 
   constructor(
     private fb: FormBuilder,
@@ -92,8 +93,11 @@ export class FormularioSolicitudComponent implements OnInit {
       numeroDocumentoMenor: ['', Validators.required],
       nacionalidadMenor: ['', Validators.required],
       numeroDocumentoPadre: ['', Validators.required],
+      fechaViaje: ['', Validators.required],
+      numeroTransporte: ['', Validators.required],
       paisOrigen: ['', Validators.required],
       paisDestino: ['', Validators.required],
+      motivoViaje: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
     });
 
@@ -146,9 +150,13 @@ export class FormularioSolicitudComponent implements OnInit {
     }
     // Construir payload con los campos básicos
     const f = this.formulario.value;
-    const payload: Pick<SolicitudAduana, 'paisOrigen' | 'paisDestino'> = {
+    const payload: Pick<SolicitudAduana,
+      'paisOrigen' | 'paisDestino' | 'fechaViaje' | 'numeroTransporte' | 'motivoViaje'> = {
       paisOrigen: f.paisOrigen,
       paisDestino: f.paisDestino,
+      fechaViaje: f.fechaViaje,
+      numeroTransporte: f.numeroTransporte,
+      motivoViaje: f.motivoViaje,
     };
 
     this.service
@@ -172,6 +180,10 @@ export class FormularioSolicitudComponent implements OnInit {
 
   togglePadre(): void {
     this.datosPadreVisible = !this.datosPadreVisible;
+  }
+
+  toggleViaje(): void {
+    this.datosViajeVisible = !this.datosViajeVisible;
   }
 
   cancelar(): void {
