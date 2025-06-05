@@ -1,12 +1,33 @@
 // src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.ts
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SolicitudAduanaService } from '../../../services/solicitudes-aduana/solicitud-aduana';
 import { SolicitudAduana } from '../../../models/solicitud-aduana';
 import { RouterModule } from '@angular/router';
+
+export function rutValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value as string;
+  if (!value) {
+    return null;
+  }
+  const rutPattern = /^[0-9]+-[0-9kK]{1}$/;
+  if (!rutPattern.test(value)) {
+    return { rutInvalido: true };
+  }
+  const [num, dv] = value.split('-');
+  let sum = 0;
+  let multiplier = 2;
+  for (let i = num.length - 1; i >= 0; i--) {
+    sum += parseInt(num.charAt(i), 10) * multiplier;
+    multiplier = multiplier === 7 ? 2 : multiplier + 1;
+  }
+  const expected = 11 - (sum % 11);
+  const dvCalc = expected === 11 ? '0' : expected === 10 ? 'K' : expected.toString();
+  return dvCalc.toUpperCase() === dv.toUpperCase() ? null : { rutInvalido: true };
+}
 
 @Component({
   selector: 'app-formulario-solicitud',
@@ -36,7 +57,10 @@ export class FormularioSolicitudComponent implements OnInit {
       relacionMenor: ['', Validators.required],
       documentoPadre: ['', Validators.required],
       telefonoPadre: ['', Validators.required],
-      emailPadre: ['', [Validators.required, Validators.email]],
+      emailPadre: ['', [
+        Validators.required,
+        Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+      ]],
       tipoSolicitudMenor: ['', Validators.required],
       nombreMenor: ['', Validators.required],
       fechaNacimientoMenor: ['', Validators.required],
@@ -49,6 +73,16 @@ export class FormularioSolicitudComponent implements OnInit {
       paisOrigen: ['', Validators.required],
       tipoAdjunto: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
+    });
+
+    this.formulario.get('tipoDocumento')?.valueChanges.subscribe((tipo) => {
+      const control = this.formulario.get('numeroDocumento');
+      if (tipo === 'RUT') {
+        control?.setValidators([Validators.required, rutValidator]);
+      } else {
+        control?.setValidators([Validators.required]);
+      }
+      control?.updateValueAndValidity();
     });
   }
 
