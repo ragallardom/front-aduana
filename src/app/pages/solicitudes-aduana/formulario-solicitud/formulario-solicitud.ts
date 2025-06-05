@@ -39,6 +39,8 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
 export class FormularioSolicitudComponent implements OnInit {
   formulario!: FormGroup;
   errorMsg = '';
+  datosMenorVisible = false;
+  datosPadreVisible = false;
 
   constructor(
     private fb: FormBuilder,
@@ -136,6 +138,14 @@ export class FormularioSolicitudComponent implements OnInit {
         },
       });
 
+  }
+
+  toggleMenor(): void {
+    this.datosMenorVisible = !this.datosMenorVisible;
+  }
+
+  togglePadre(): void {
+    this.datosPadreVisible = !this.datosPadreVisible;
   }
 
   cancelar(): void {
