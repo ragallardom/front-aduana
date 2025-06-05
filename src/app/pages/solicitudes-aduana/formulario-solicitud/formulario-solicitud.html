@@ -112,6 +112,129 @@
       </div>
     </fieldset>
 
+    <!-- Datos del menor -->
+    <fieldset class="mb-4">
+      <legend class="fs-5">Datos del menor</legend>
+
+      <!-- Tipo de solicitud -->
+      <div class="mb-3">
+        <label class="form-label d-block">Tipo de solicitud</label>
+        <div class="btn-group" role="group" aria-label="Tipo Solicitud">
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="tipoSolicitudMenor"
+            value="Entrada"
+            id="solicitud-entrada"
+          />
+          <label class="btn btn-outline-primary" for="solicitud-entrada"
+            >Entrada</label
+          >
+
+          <input
+            type="radio"
+            class="btn-check"
+            formControlName="tipoSolicitudMenor"
+            value="Salida"
+            id="solicitud-salida"
+          />
+          <label class="btn btn-outline-primary" for="solicitud-salida"
+            >Salida</label
+          >
+        </div>
+        <div
+          *ngIf="
+            formulario.get('tipoSolicitudMenor')?.invalid &&
+            formulario.get('tipoSolicitudMenor')?.touched
+          "
+          class="text-danger mt-1"
+        >
+          Debes seleccionar el tipo de solicitud.
+        </div>
+      </div>
+
+      <!-- Nombre completo del menor -->
+      <div class="mb-3">
+        <label class="form-label">Nombre completo del menor</label>
+        <input
+          type="text"
+          formControlName="nombreMenor"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('nombreMenor')?.invalid &&
+            formulario.get('nombreMenor')?.touched
+          "
+          class="text-danger"
+        >
+          El nombre del menor es obligatorio.
+        </div>
+      </div>
+
+      <!-- Fecha de nacimiento -->
+      <div class="mb-3">
+        <label class="form-label">Fecha de nacimiento</label>
+        <input
+          type="date"
+          formControlName="fechaNacimientoMenor"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('fechaNacimientoMenor')?.invalid &&
+            formulario.get('fechaNacimientoMenor')?.touched
+          "
+          class="text-danger"
+        >
+          La fecha de nacimiento es obligatoria.
+        </div>
+      </div>
+
+      <!-- RUT o Número de pasaporte -->
+      <div class="mb-3">
+        <label class="form-label">RUT o Número de pasaporte</label>
+        <input
+          type="text"
+          formControlName="documentoMenor"
+          class="form-control"
+        />
+        <div
+          *ngIf="
+            formulario.get('documentoMenor')?.invalid &&
+            formulario.get('documentoMenor')?.touched
+          "
+          class="text-danger"
+        >
+          El documento es obligatorio.
+        </div>
+      </div>
+
+      <!-- Nacionalidad -->
+      <div class="mb-3">
+        <label class="form-label">Nacionalidad</label>
+        <select formControlName="nacionalidadMenor" class="form-select">
+          <option value="" disabled>-- Selecciona --</option>
+          <option value="Chilena">Chilena</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Peruana">Peruana</option>
+          <option value="Uruguaya">Uruguaya</option>
+          <option value="Paraguaya">Paraguaya</option>
+          <option value="Boliviana">Boliviana</option>
+          <option value="Colombiana">Colombiana</option>
+        </select>
+        <div
+          *ngIf="
+            formulario.get('nacionalidadMenor')?.invalid &&
+            formulario.get('nacionalidadMenor')?.touched
+          "
+          class="text-danger"
+        >
+          Debes seleccionar la nacionalidad.
+        </div>
+      </div>
+    </fieldset>
+
     <!-- Nombre del Solicitante -->
     <div class="mb-3">
       <label class="form-label">Nombre Solicitante</label>
