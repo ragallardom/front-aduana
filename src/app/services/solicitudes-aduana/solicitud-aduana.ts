@@ -24,19 +24,18 @@ export class SolicitudAduanaService {
    * Envía la solicitud utilizando `multipart/form-data`.
    */
   crearConAdjunto(
-    data: Omit<
-      SolicitudAduana,
-      'id' | 'estado' | 'fechaCreacion' | 'tipoDocumento' | 'numeroDocumento'
-    >,
-    tipoAdjunto: string,
-    archivo: File
+    data: Pick<SolicitudAduana, 'paisOrigen'>,
+    tipoAdjunto?: string,
+    archivo?: File
   ): Observable<SolicitudAduana> {
     const formData = new FormData();
-    formData.append('nombreSolicitante', data.nombreSolicitante);
-    formData.append('motivo', data.motivo);
     formData.append('paisOrigen', data.paisOrigen);
-    formData.append('tipoAdjunto', tipoAdjunto);
-    formData.append('archivo', archivo, archivo.name);
+    if (tipoAdjunto) {
+      formData.append('tipoAdjunto', tipoAdjunto);
+    }
+    if (archivo) {
+      formData.append('archivo', archivo, archivo.name);
+    }
 
     return this.http.post<SolicitudAduana>(this.baseUrl, formData);
   }

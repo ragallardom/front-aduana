@@ -183,6 +183,23 @@
           Debes seleccionar la nacionalidad.
         </div>
       </div>
+
+      <!-- País de Origen (solo entrada) -->
+      <div class="mb-3" *ngIf="formulario.get('tipoSolicitudMenor')?.value === 'Entrada'">
+        <label class="form-label">País de Origen</label>
+        <select formControlName="paisOrigen" class="form-select">
+          <option value="" disabled>-- Selecciona --</option>
+          <option value="Argentina">Argentina</option>
+          <option value="Perú">Perú</option>
+          <option value="Bolivia">Bolivia</option>
+        </select>
+        <div
+          *ngIf="formulario.get('paisOrigen')?.invalid && formulario.get('paisOrigen')?.touched"
+          class="text-danger"
+        >
+          El país de origen es obligatorio.
+        </div>
+      </div>
     </fieldset>
 
     <!-- Datos de los padres o tutores legales -->
@@ -337,95 +354,6 @@
       </div>
     </fieldset>
 
-    <!-- Nombre del Solicitante -->
-    <div class="mb-3">
-      <label class="form-label">Nombre Solicitante</label>
-      <input
-        type="text"
-        formControlName="nombreSolicitante"
-        class="form-control"
-      />
-      <div
-        *ngIf="
-          formulario.get('nombreSolicitante')?.invalid &&
-          formulario.get('nombreSolicitante')?.touched
-        "
-        class="text-danger"
-      >
-        El nombre del solicitante es obligatorio.
-      </div>
-    </div>
-
-    <!-- Tipo de Documento (eliminado) -->
-
-    <!-- Motivo -->
-    <div class="mb-3">
-      <label class="form-label">Motivo</label>
-      <input type="text" formControlName="motivo" class="form-control" />
-      <div
-        *ngIf="
-          formulario.get('motivo')?.invalid &&
-          formulario.get('motivo')?.touched
-        "
-        class="text-danger"
-      >
-        El motivo es obligatorio.
-      </div>
-    </div>
-
-    <!-- País de Origen -->
-    <div class="mb-3">
-      <label class="form-label">País Origen</label>
-      <input type="text" formControlName="paisOrigen" class="form-control" />
-      <div
-        *ngIf="
-          formulario.get('paisOrigen')?.invalid &&
-          formulario.get('paisOrigen')?.touched
-        "
-        class="text-danger"
-      >
-        El país de origen es obligatorio.
-      </div>
-    </div>
-
-    <!-- Tipo de Documento Adjunto -->
-    <div class="mb-3">
-      <label class="form-label">Tipo Documento Adjunto</label>
-      <select formControlName="tipoAdjunto" class="form-select">
-        <option value="" disabled>-- Selecciona un tipo --</option>
-        <option
-          *ngFor="let tipo of tiposAdjunto"
-          [value]="tipo"
-        >
-          {{ tipo }}
-        </option>
-      </select>
-      <div
-        *ngIf="
-          formulario.get('tipoAdjunto')?.invalid &&
-          formulario.get('tipoAdjunto')?.touched
-        "
-        class="text-danger"
-      >
-        Debes elegir un tipo de documento adjunto.
-      </div>
-    </div>
-
-    <!-- Archivo -->
-    <div class="mb-3">
-      <label class="form-label">Archivo (PDF, JPG, etc.)</label>
-      <input
-        type="file"
-        (change)="onFileChange($event)"
-        class="form-control"
-      />
-      <div
-        *ngIf="!archivoSeleccionado"
-        class="text-danger"
-      >
-        Debes seleccionar un archivo.
-      </div>
-    </div>
 
     <!-- Botones -->
     <button

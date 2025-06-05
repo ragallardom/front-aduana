@@ -39,10 +39,6 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
 export class FormularioSolicitudComponent implements OnInit {
   formulario!: FormGroup;
   errorMsg = '';
-  archivoSeleccionado: File | null = null;
-
-  // Define los posibles tipos de adjunto (ajusta según tu backend)
-  tiposAdjunto = ['comprobante', 'manifiesto', 'factura'];
 
   constructor(
     private fb: FormBuilder,
@@ -67,11 +63,8 @@ export class FormularioSolicitudComponent implements OnInit {
       documentoMenor: ['', Validators.required],
       numeroDocumentoMenor: ['', Validators.required],
       nacionalidadMenor: ['', Validators.required],
-      nombreSolicitante: ['', Validators.required],
       numeroDocumentoPadre: ['', Validators.required],
-      motivo: ['', Validators.required],
       paisOrigen: ['', Validators.required],
-      tipoAdjunto: ['', Validators.required],
       // El input file no se asocia directamente a FormControl; lo validamos por código
     });
 
@@ -96,39 +89,21 @@ export class FormularioSolicitudComponent implements OnInit {
     });
   }
 
-  // 2) Capturamos el archivo que el usuario selecciona
-  onFileChange(event: any): void {
-    if (event.target.files && event.target.files.length > 0) {
-      this.archivoSeleccionado = event.target.files[0];
-    }
-  }
-
-  // 3) Manejo del submit
+  // Manejo del submit
   guardar(): void {
     // Validar campos
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
       return;
     }
-    if (!this.archivoSeleccionado) {
-      this.errorMsg = 'Debes seleccionar un archivo.';
-      return;
-    }
-
     // Construir payload con los campos básicos
     const f = this.formulario.value;
-    const payload: Omit<
-      SolicitudAduana,
-      'id' | 'estado' | 'fechaCreacion' | 'tipoDocumento' | 'numeroDocumento'
-    > = {
-      nombreSolicitante: f.nombreSolicitante,
-      motivo: f.motivo,
+    const payload: Pick<SolicitudAduana, 'paisOrigen'> = {
       paisOrigen: f.paisOrigen,
     };
-    const tipoAdj = f.tipoAdjunto;
 
     this.service
-      .crearConAdjunto(payload, tipoAdj, this.archivoSeleccionado)
+      .crearConAdjunto(payload)
       .subscribe({
         next: () => {
           // Al éxito, navegamos al listado
