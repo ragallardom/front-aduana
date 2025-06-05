@@ -292,12 +292,7 @@
       <!-- Motivo del viaje -->
       <div class="mb-3">
         <label class="form-label">Motivo del viaje</label>
-        <select formControlName="motivoViaje" class="form-select">
-          <option value="" disabled>-- Selecciona --</option>
-          <option value="Vacaciones">Vacaciones</option>
-          <option value="Estudios">Estudios</option>
-          <option value="Visita familiar">Visita familiar</option>
-        </select>
+        <input type="text" formControlName="motivoViaje" class="form-control" />
         <div
           *ngIf="formulario.get('motivoViaje')?.invalid && formulario.get('motivoViaje')?.touched"
           class="text-danger"
@@ -482,14 +477,67 @@
       </div>
       </fieldset>
     </div>
-    <div
-      *ngIf="!datosPadreVisible"
-      class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-      (click)="togglePadre()"
-    >
-      <span>Datos de los padres o tutores legales</span>
-      <span class="toggle-arrow">&#9660;</span>
-    </div>
+  <div
+    *ngIf="!datosPadreVisible"
+    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+    (click)="togglePadre()"
+  >
+    <span>Datos de los padres o tutores legales</span>
+    <span class="toggle-arrow">&#9660;</span>
+  </div>
+
+  <!-- Documentos Adjuntos -->
+  <div
+    class="section-wrapper mb-4"
+    [@expandCollapse]="datosDocumentosVisible ? 'expanded' : 'collapsed'"
+  >
+    <fieldset>
+      <legend class="fs-5 d-flex justify-content-between align-items-center">
+        <span>Documentos Adjuntos</span>
+        <button
+          type="button"
+          class="toggle-btn"
+          aria-label="Minimizar"
+          (click)="toggleDocumentos()"
+        >
+          <span [class.rotated]="datosDocumentosVisible">&#9660;</span>
+        </button>
+      </legend>
+
+      <div class="mb-3">
+        <label class="form-label">Cédula de identidad o pasaporte del menor</label>
+        <input type="file" (change)="onArchivoSeleccionado($event, 'idMenor')" class="form-control" />
+      </div>
+
+      <div class="mb-3" *ngIf="formulario.get('nacionalidadMenor')?.value === 'Chilena'">
+        <label class="form-label">Certificado de nacimiento</label>
+        <input type="file" (change)="onArchivoSeleccionado($event, 'certNacimiento')" class="form-control" />
+      </div>
+
+      <div class="mb-3" *ngIf="formulario.get('nacionalidadMenor')?.value === 'Chilena'">
+        <label class="form-label">Permiso notarial firmado por ambos padres</label>
+        <input type="file" (change)="onArchivoSeleccionado($event, 'permisoNotarial')" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Cédula de los padres o tutor</label>
+        <input type="file" (change)="onArchivoSeleccionado($event, 'idPadres')" class="form-control" />
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Pasaje o itinerario de viaje</label>
+        <input type="file" (change)="onArchivoSeleccionado($event, 'pasajeItinerario')" class="form-control" />
+      </div>
+    </fieldset>
+  </div>
+  <div
+    *ngIf="!datosDocumentosVisible"
+    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
+    (click)="toggleDocumentos()"
+  >
+    <span>Documentos Adjuntos</span>
+    <span class="toggle-arrow">&#9660;</span>
+  </div>
 
 
     <!-- Botones -->

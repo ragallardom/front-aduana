@@ -68,6 +68,15 @@ export class FormularioSolicitudComponent implements OnInit {
   datosMenorVisible = false;
   datosPadreVisible = false;
   datosViajeVisible = false;
+  datosDocumentosVisible = false;
+
+  adjuntos: Record<string, File | null> = {
+    idMenor: null,
+    certNacimiento: null,
+    permisoNotarial: null,
+    idPadres: null,
+    pasajeItinerario: null,
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -184,6 +193,17 @@ export class FormularioSolicitudComponent implements OnInit {
 
   toggleViaje(): void {
     this.datosViajeVisible = !this.datosViajeVisible;
+  }
+
+  toggleDocumentos(): void {
+    this.datosDocumentosVisible = !this.datosDocumentosVisible;
+  }
+
+  onArchivoSeleccionado(event: Event, tipo: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.adjuntos[tipo] = input.files[0];
+    }
   }
 
   cancelar(): void {
