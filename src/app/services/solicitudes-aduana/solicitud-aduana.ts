@@ -27,7 +27,7 @@ export class SolicitudAduanaService {
    */
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
-    tipoDocumento: string,
+    tipoAdjunto: string,
     archivoBase64: string
   ): Observable<SolicitudAduana> {
     const params = new HttpParams({
@@ -37,7 +37,7 @@ export class SolicitudAduanaService {
         numeroDocumento: data.numeroDocumento,
         motivo: data.motivo,
         paisOrigen: data.paisOrigen,
-        tipoDocumentoAdjunto: tipoDocumento,
+        tipoAdjunto,
         archivoBase64
       }
     });
