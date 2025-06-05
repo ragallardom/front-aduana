@@ -1,6 +1,13 @@
 // src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.ts
 
 import { Component, OnInit } from '@angular/core';
+import {
+  trigger,
+  state,
+  style,
+  transition,
+  animate,
+} from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -34,7 +41,20 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './formulario-solicitud.html',
-  styleUrls: ['./formulario-solicitud.scss']
+  styleUrls: ['./formulario-solicitud.scss'],
+  animations: [
+    trigger('expandCollapse', [
+      state(
+        'expanded',
+        style({ height: '*', opacity: 1, overflow: 'hidden' })
+      ),
+      state(
+        'collapsed',
+        style({ height: '0px', opacity: 0, overflow: 'hidden' })
+      ),
+      transition('expanded <=> collapsed', animate('200ms ease')),
+    ]),
+  ]
 })
 export class FormularioSolicitudComponent implements OnInit {
   formulario!: FormGroup;
