@@ -1,6 +1,6 @@
 <!-- src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.component.html -->
 <div class="container">
-  <h2 class="mb-4">Registrar Nueva Solicitud Aduana</h2>
+  <h2 class="mb-4">Registrar Nueva Solicitud Viaje de Menor</h2>
 
   <!-- Mensaje de error general -->
   <div *ngIf="errorMsg" class="alert alert-danger">
@@ -241,7 +241,7 @@
 
       <!-- Número de vuelo / barco / bus -->
       <div class="mb-3">
-        <label class="form-label">Número de vuelo / barco / bus</label>
+        <label class="form-label">Número de vuelo / bus</label>
         <input
           type="text"
           formControlName="numeroTransporte"
@@ -520,7 +520,7 @@
       </div>
 
       <div class="mb-3">
-        <label class="form-label">Cédula de los padres o tutor</label>
+        <label class="form-label">Cédula de identidad o pasaporte de los padres o tutor</label>
         <input type="file" (change)="onArchivoSeleccionado($event, 'idPadres')" class="form-control" />
       </div>
 
