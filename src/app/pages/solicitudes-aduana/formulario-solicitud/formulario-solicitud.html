@@ -114,16 +114,51 @@
             >Pasaporte</label
           >
         </div>
-        <div
-          *ngIf="
-            formulario.get('documentoMenor')?.invalid &&
-            formulario.get('documentoMenor')?.touched
-          "
-          class="text-danger mt-1"
-        >
-          Debes seleccionar el documento.
-        </div>
+      <div
+        *ngIf="
+          formulario.get('documentoMenor')?.invalid &&
+          formulario.get('documentoMenor')?.touched
+        "
+        class="text-danger mt-1"
+      >
+        Debes seleccionar el documento.
       </div>
+    </div>
+
+    <div class="mb-3" *ngIf="formulario.get('documentoMenor')?.value === 'RUT'">
+      <label class="form-label">RUT del menor</label>
+      <input
+        type="text"
+        formControlName="numeroDocumentoMenor"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumentoMenor')?.invalid &&
+          formulario.get('numeroDocumentoMenor')?.touched
+        "
+        class="text-danger"
+      >
+        Ingresa un RUT válido.
+      </div>
+    </div>
+    <div class="mb-3" *ngIf="formulario.get('documentoMenor')?.value === 'Pasaporte'">
+      <label class="form-label">Pasaporte del menor</label>
+      <input
+        type="text"
+        formControlName="numeroDocumentoMenor"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumentoMenor')?.invalid &&
+          formulario.get('numeroDocumentoMenor')?.touched
+        "
+        class="text-danger"
+      >
+        El número de pasaporte es obligatorio.
+      </div>
+    </div>
 
       <!-- Nacionalidad -->
       <div class="mb-3">
@@ -217,16 +252,51 @@
             >Pasaporte</label
           >
         </div>
-        <div
-          *ngIf="
-            formulario.get('documentoPadre')?.invalid &&
-            formulario.get('documentoPadre')?.touched
-          "
-          class="text-danger mt-1"
-        >
-          Debes seleccionar el documento.
-        </div>
+      <div
+        *ngIf="
+          formulario.get('documentoPadre')?.invalid &&
+          formulario.get('documentoPadre')?.touched
+        "
+        class="text-danger mt-1"
+      >
+        Debes seleccionar el documento.
       </div>
+    </div>
+
+    <div class="mb-3" *ngIf="formulario.get('documentoPadre')?.value === 'RUT'">
+      <label class="form-label">RUT del padre o tutor</label>
+      <input
+        type="text"
+        formControlName="numeroDocumentoPadre"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumentoPadre')?.invalid &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        Ingresa un RUT válido.
+      </div>
+    </div>
+    <div class="mb-3" *ngIf="formulario.get('documentoPadre')?.value === 'Pasaporte'">
+      <label class="form-label">Pasaporte del padre o tutor</label>
+      <input
+        type="text"
+        formControlName="numeroDocumentoPadre"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          formulario.get('numeroDocumentoPadre')?.invalid &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        El número de pasaporte es obligatorio.
+      </div>
+    </div>
 
       <!-- Teléfono -->
       <div class="mb-3">

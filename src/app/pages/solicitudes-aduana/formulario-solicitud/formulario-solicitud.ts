@@ -65,10 +65,12 @@ export class FormularioSolicitudComponent implements OnInit {
       nombreMenor: ['', Validators.required],
       fechaNacimientoMenor: ['', Validators.required],
       documentoMenor: ['', Validators.required],
+      numeroDocumentoMenor: ['', Validators.required],
       nacionalidadMenor: ['', Validators.required],
       nombreSolicitante: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
       numeroDocumento: ['', Validators.required],
+      numeroDocumentoPadre: ['', Validators.required],
       motivo: ['', Validators.required],
       paisOrigen: ['', Validators.required],
       tipoAdjunto: ['', Validators.required],
@@ -77,6 +79,26 @@ export class FormularioSolicitudComponent implements OnInit {
 
     this.formulario.get('tipoDocumento')?.valueChanges.subscribe((tipo) => {
       const control = this.formulario.get('numeroDocumento');
+      if (tipo === 'RUT') {
+        control?.setValidators([Validators.required, rutValidator]);
+      } else {
+        control?.setValidators([Validators.required]);
+      }
+      control?.updateValueAndValidity();
+    });
+
+    this.formulario.get('documentoPadre')?.valueChanges.subscribe((tipo) => {
+      const control = this.formulario.get('numeroDocumentoPadre');
+      if (tipo === 'RUT') {
+        control?.setValidators([Validators.required, rutValidator]);
+      } else {
+        control?.setValidators([Validators.required]);
+      }
+      control?.updateValueAndValidity();
+    });
+
+    this.formulario.get('documentoMenor')?.valueChanges.subscribe((tipo) => {
+      const control = this.formulario.get('numeroDocumentoMenor');
       if (tipo === 'RUT') {
         control?.setValidators([Validators.required, rutValidator]);
       } else {
