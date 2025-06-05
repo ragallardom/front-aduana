@@ -9,14 +9,14 @@ import { SolicitudAduana } from '../../models/solicitud-aduana';
 export class SolicitudAduanaService {
 
   /**
-   * Base URL para las solicitudes de la API.
+   * Endpoint para crear solicitudes con adjunto.
    *
-   * Se deja relativa para aprovechar el proxy de desarrollo
-   * (proxy.conf.json) y evitar problemas de CORS en entornos
-   * locales. Cuando se despliegue a producción puede apuntar a la
-   * URL absoluta correspondiente.
+   * Se mantiene relativa para aprovechar el proxy de desarrollo
+   * (`proxy.conf.json`) y evitar problemas de CORS en entornos locales.
+   * Cuando se despliegue a producción puede apuntar a la URL absoluta
+   * correspondiente.
    */
-  private readonly baseUrl = '/api/solicitudes';
+  private readonly baseUrl = '/api/solicitudes/adjuntar';
 
   constructor(private http: HttpClient) {}
 
