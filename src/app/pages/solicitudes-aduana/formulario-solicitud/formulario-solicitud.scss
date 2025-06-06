@@ -32,3 +32,14 @@
 .toggle-btn span.rotated {
   transform: rotate(180deg);
 }
+// Align expanded and collapsed headers at the same height
+.section-wrapper fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.section-wrapper legend {
+  margin: 0;
+  padding: 1rem 0;
+}
