@@ -73,7 +73,7 @@ export function menorDeEdadValidator(control: AbstractControl): ValidationErrors
           padding: '0'
         })
       ),
-      transition('expanded <=> collapsed', animate('300ms ease-in-out')),
+      transition('expanded <=> collapsed', animate('200ms ease-in-out')),
     ]),
   ]
 })
