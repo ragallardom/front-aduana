@@ -1,1 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*
+  When expanding form sections the page might toggle the vertical scrollbar,
+  causing a subtle horizontal shift in the header and its logo. Always showing
+  the scrollbar prevents this layout jump.
+*/
+html,
+body {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  overflow-y: scroll;
+}
