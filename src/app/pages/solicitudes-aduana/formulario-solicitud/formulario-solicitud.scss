@@ -26,7 +26,7 @@
 .toggle-btn span,
 .toggle-arrow {
   display: inline-block;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s ease-in-out;
 }
 
 .toggle-btn span.rotated {
