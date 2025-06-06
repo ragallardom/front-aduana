@@ -20,11 +20,12 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
   if (!value) {
     return null;
   }
+  const clean = value.replace(/\./g, '');
   const rutPattern = /^[0-9]+-[0-9kK]{1}$/;
-  if (!rutPattern.test(value)) {
+  if (!rutPattern.test(clean)) {
     return { rutInvalido: true };
   }
-  const [num, dv] = value.split('-');
+  const [num, dv] = clean.split('-');
   let sum = 0;
   let multiplier = 2;
   for (let i = num.length - 1; i >= 0; i--) {
@@ -34,6 +35,20 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
   const expected = 11 - (sum % 11);
   const dvCalc = expected === 11 ? '0' : expected === 10 ? 'K' : expected.toString();
   return dvCalc.toUpperCase() === dv.toUpperCase() ? null : { rutInvalido: true };
+}
+
+export function menorDeEdadValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value as string;
+  if (!value) {
+    return null;
+  }
+  const fechaNacimiento = new Date(value);
+  const hoy = new Date();
+  const fecha18 = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
+  if (fechaNacimiento > hoy) {
+    return { menorDeEdad: true };
+  }
+  return fechaNacimiento > fecha18 ? null : { menorDeEdad: true };
 }
 
 @Component({
@@ -58,7 +73,7 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
           padding: '0'
         })
       ),
-      transition('expanded <=> collapsed', animate('200ms ease')),
+      transition('expanded <=> collapsed', animate('300ms ease-in-out')),
     ]),
   ]
 })
@@ -97,7 +112,7 @@ export class FormularioSolicitudComponent implements OnInit {
       ]],
       tipoSolicitudMenor: ['', Validators.required],
       nombreMenor: ['', Validators.required],
-      fechaNacimientoMenor: ['', Validators.required],
+      fechaNacimientoMenor: ['', [Validators.required, menorDeEdadValidator]],
       documentoMenor: ['', Validators.required],
       numeroDocumentoMenor: ['', Validators.required],
       nacionalidadMenor: ['', Validators.required],
@@ -197,6 +212,27 @@ export class FormularioSolicitudComponent implements OnInit {
 
   toggleDocumentos(): void {
     this.datosDocumentosVisible = !this.datosDocumentosVisible;
+  }
+
+  formatearRut(event: Event, controlName: string): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value.replace(/[^0-9kK]/g, '').toUpperCase();
+    if (value.length > 1) {
+      const cuerpo = value.slice(0, -1);
+      const dv = value.slice(-1);
+      let formatted = '';
+      for (let i = cuerpo.length - 1, j = 1; i >= 0; i--, j++) {
+        formatted = cuerpo.charAt(i) + formatted;
+        if (j % 3 === 0 && i !== 0) {
+          formatted = '.' + formatted;
+        }
+      }
+      formatted += '-' + dv;
+      input.value = formatted;
+    } else {
+      input.value = value;
+    }
+    this.formulario.get(controlName)?.setValue(input.value, { emitEvent: false });
   }
 
   onArchivoSeleccionado(event: Event, tipo: string): void {
