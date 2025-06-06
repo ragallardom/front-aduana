@@ -17,7 +17,7 @@ export const routes: Routes = [
   { path: '', component: InicioComponent },
 
   // Ruta para crear nueva solicitud
-  { path: 'solicitud-aduana/nuevo', component: FormularioSolicitudComponent },
+  { path: 'solicitud/nuevo/viaje-menor', component: FormularioSolicitudComponent },
 
   // 3) Editar una solicitud (usa el mismo componente de formulario)
   { path: 'solicitud-aduana/editar/:id', component: FormularioSolicitudComponent },
