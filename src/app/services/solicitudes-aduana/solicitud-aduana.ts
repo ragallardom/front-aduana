@@ -21,9 +21,11 @@ export class SolicitudAduanaService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Envía la solicitud como JSON junto con el archivo codificado en Base64.
-   * Esto evita problemas de compatibilidad con multipart/form-data cuando el
-   * backend sólo acepta application/json.
+   * Envía la solicitud utilizando `multipart/form-data`.
+   *
+   * Algunos backends no aceptan `application/json` para la carga de archivos,
+   * por lo que adjuntamos todos los campos dentro de una instancia de
+   * `FormData`, incluyendo el archivo si se proporciona.
    */
   crearConAdjunto(
     data: Omit<
@@ -32,16 +34,19 @@ export class SolicitudAduanaService {
     >,
     tipoAdjunto = '',
     numeroDocumento = '',
-    archivoBase64 = ''
+    archivo?: File
   ): Observable<SolicitudViajeMenor> {
-    const payload: any = {
-      ...data,
-    };
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        formData.append(key, value as string);
+      }
+    });
     if (tipoAdjunto) {
-      payload.tipoAdjunto = tipoAdjunto;
+      formData.append('tipoAdjunto', tipoAdjunto);
     }
-    if (archivoBase64) {
-      payload.archivoBase64 = archivoBase64;
+    if (archivo) {
+      formData.append('archivo', archivo);
     }
 
     let params: HttpParams | undefined;
@@ -61,7 +66,7 @@ export class SolicitudAduanaService {
       );
     }
 
-    return this.http.post<SolicitudViajeMenor>(this.baseUrl, payload, {
+    return this.http.post<SolicitudViajeMenor>(this.baseUrl, formData, {
       params,
     });
   }
