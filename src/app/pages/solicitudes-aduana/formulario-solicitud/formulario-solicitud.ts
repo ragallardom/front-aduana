@@ -114,6 +114,8 @@ export function fechaViajeValidator(control: AbstractControl): ValidationErrors 
 export class FormularioSolicitudComponent implements OnInit {
   formulario!: FormGroup;
   errorMsg = '';
+  successMsg = '';
+  submitAttempted = false;
   datosMenorVisible = false;
   datosPadreVisible = false;
   datosViajeVisible = false;
@@ -204,6 +206,7 @@ export class FormularioSolicitudComponent implements OnInit {
 
   // Manejo del submit
   guardar(): void {
+    this.submitAttempted = true;
     // Validar campos
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
@@ -246,8 +249,9 @@ export class FormularioSolicitudComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          alert('Solicitud enviada correctamente.');
-          this.router.navigate(['/solicitud-aduana']);
+          this.successMsg = 'Solicitud enviada correctamente.';
+          this.errorMsg = '';
+          setTimeout(() => this.router.navigate(['/solicitud-aduana']), 1500);
         },
         error: (err) => {
           console.error('Error al crear solicitud:', err);
@@ -258,39 +262,54 @@ export class FormularioSolicitudComponent implements OnInit {
   }
 
   toggleMenor(): void {
+    if (this.tieneErroresMenor()) {
+      this.datosMenorVisible = true;
+      return;
+    }
     this.datosMenorVisible = !this.datosMenorVisible;
     if (this.datosMenorVisible) {
-      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
-      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
-      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+      this.cerrarSeccionesExcepto('menor');
     }
   }
 
   togglePadre(): void {
+    if (this.tieneErroresPadre()) {
+      this.datosPadreVisible = true;
+      return;
+    }
     this.datosPadreVisible = !this.datosPadreVisible;
     if (this.datosPadreVisible) {
-      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
-      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
-      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+      this.cerrarSeccionesExcepto('padre');
     }
   }
 
   toggleViaje(): void {
+    if (this.tieneErroresViaje()) {
+      this.datosViajeVisible = true;
+      return;
+    }
     this.datosViajeVisible = !this.datosViajeVisible;
     if (this.datosViajeVisible) {
-      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
-      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
-      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+      this.cerrarSeccionesExcepto('viaje');
     }
   }
 
   toggleDocumentos(): void {
+    if (this.tieneErroresDocumentos()) {
+      this.datosDocumentosVisible = true;
+      return;
+    }
     this.datosDocumentosVisible = !this.datosDocumentosVisible;
     if (this.datosDocumentosVisible) {
-      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
-      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
-      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
+      this.cerrarSeccionesExcepto('documentos');
     }
+  }
+
+  private cerrarSeccionesExcepto(seccion: 'menor' | 'padre' | 'viaje' | 'documentos'): void {
+    if (seccion !== 'menor' && !this.tieneErroresMenor()) this.datosMenorVisible = false;
+    if (seccion !== 'padre' && !this.tieneErroresPadre()) this.datosPadreVisible = false;
+    if (seccion !== 'viaje' && !this.tieneErroresViaje()) this.datosViajeVisible = false;
+    if (seccion !== 'documentos' && !this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
   }
 
   formatearRut(event: Event, controlName: string): void {
