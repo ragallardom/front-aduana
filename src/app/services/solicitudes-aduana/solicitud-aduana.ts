@@ -30,15 +30,15 @@ export class SolicitudAduanaService {
       SolicitudViajeMenor,
       'id' | 'estado' | 'fechaCreacion' | 'documentos'
     >,
-    tipoDocumento = '',
+    tipoAdjunto = '',
     numeroDocumento = '',
     archivoBase64 = ''
   ): Observable<SolicitudViajeMenor> {
     const payload: any = {
       ...data,
     };
-    if (tipoDocumento) {
-      payload.tipoDocumentoAdjunto = tipoDocumento;
+    if (tipoAdjunto) {
+      payload.tipoAdjunto = tipoAdjunto;
     }
     if (archivoBase64) {
       payload.archivoBase64 = archivoBase64;
@@ -51,8 +51,8 @@ export class SolicitudAduanaService {
         data.nombrePadreMadre
       );
     }
-    if (tipoDocumento) {
-      params = (params ?? new HttpParams()).set('tipoDocumento', tipoDocumento);
+    if (tipoAdjunto) {
+      params = (params ?? new HttpParams()).set('tipoAdjunto', tipoAdjunto);
     }
     if (numeroDocumento) {
       params = (params ?? new HttpParams()).set(
