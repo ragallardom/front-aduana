@@ -175,7 +175,8 @@ export class FormularioSolicitudComponent implements OnInit {
     // Construir payload con los campos básicos
     const f = this.formulario.value;
     const payload: Pick<SolicitudAduana,
-      'paisOrigen' | 'paisDestino' | 'fechaViaje' | 'numeroTransporte' | 'motivoViaje'> = {
+      'nombreSolicitante' | 'paisOrigen' | 'paisDestino' | 'fechaViaje' | 'numeroTransporte' | 'motivoViaje'> = {
+      nombreSolicitante: f.nombrePadreMadre,
       paisOrigen: f.paisOrigen,
       paisDestino: f.paisDestino,
       fechaViaje: f.fechaViaje,
