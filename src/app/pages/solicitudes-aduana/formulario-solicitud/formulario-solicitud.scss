@@ -1,38 +1,11 @@
-// Estilos para las secciones colapsables del formulario
+// Estilos para las secciones del formulario
 .section-wrapper {
   border: 1px solid #ccc;
   padding: 1rem;
   border-radius: 4px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
-
-.section-collapsed {
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  margin-bottom: 1.5rem;
-  background-color: #f8f9fa;
-}
-
-.toggle-btn {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.toggle-btn span,
-.toggle-arrow {
-  display: inline-block;
-  transition: transform 0.3s ease-in-out;
-}
-
-.toggle-btn span.rotated {
-  transform: rotate(180deg);
-}
-// Align expanded and collapsed headers at the same height
+// Alinea los encabezados dentro de cada sección
 .section-wrapper fieldset {
   margin: 0;
   padding: 0;

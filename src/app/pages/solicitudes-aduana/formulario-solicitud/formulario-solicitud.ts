@@ -1,13 +1,6 @@
 // src/app/pages/solicitudes-aduana/formulario-solicitud/formulario-solicitud.ts
 
 import { Component, OnInit } from '@angular/core';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -90,36 +83,13 @@ export function fechaViajeValidator(control: AbstractControl): ValidationErrors 
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './formulario-solicitud.html',
-  styleUrls: ['./formulario-solicitud.scss'],
-  animations: [
-    trigger('expandCollapse', [
-      state(
-        'expanded',
-        style({ height: '*', opacity: 1, overflow: 'hidden' })
-      ),
-      state(
-        'collapsed',
-        style({
-          height: '0px',
-          opacity: 0,
-          overflow: 'hidden',
-          margin: '0',
-          padding: '0'
-        })
-      ),
-      transition('expanded <=> collapsed', animate('180ms ease-in-out')),
-    ]),
-  ]
+  styleUrls: ['./formulario-solicitud.scss']
 })
 export class FormularioSolicitudComponent implements OnInit {
   formulario!: FormGroup;
   errorMsg = '';
   successMsg = '';
   submitAttempted = false;
-  datosMenorVisible = false;
-  datosPadreVisible = false;
-  datosViajeVisible = false;
-  datosDocumentosVisible = false;
 
   adjuntos: Record<string, File | null> = {
     idMenor: null,
@@ -210,7 +180,6 @@ export class FormularioSolicitudComponent implements OnInit {
     // Validar campos
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
-      this.abrirSeccionesConErrores();
       this.scrollToFirstError();
       return;
     }
@@ -261,56 +230,6 @@ export class FormularioSolicitudComponent implements OnInit {
 
   }
 
-  toggleMenor(): void {
-    if (this.submitAttempted && this.tieneErroresMenor()) {
-      this.datosMenorVisible = true;
-      return;
-    }
-    this.datosMenorVisible = !this.datosMenorVisible;
-    if (this.datosMenorVisible) {
-      this.cerrarSeccionesExcepto('menor');
-    }
-  }
-
-  togglePadre(): void {
-    if (this.submitAttempted && this.tieneErroresPadre()) {
-      this.datosPadreVisible = true;
-      return;
-    }
-    this.datosPadreVisible = !this.datosPadreVisible;
-    if (this.datosPadreVisible) {
-      this.cerrarSeccionesExcepto('padre');
-    }
-  }
-
-  toggleViaje(): void {
-    if (this.submitAttempted && this.tieneErroresViaje()) {
-      this.datosViajeVisible = true;
-      return;
-    }
-    this.datosViajeVisible = !this.datosViajeVisible;
-    if (this.datosViajeVisible) {
-      this.cerrarSeccionesExcepto('viaje');
-    }
-  }
-
-  toggleDocumentos(): void {
-    if (this.submitAttempted && this.tieneErroresDocumentos()) {
-      this.datosDocumentosVisible = true;
-      return;
-    }
-    this.datosDocumentosVisible = !this.datosDocumentosVisible;
-    if (this.datosDocumentosVisible) {
-      this.cerrarSeccionesExcepto('documentos');
-    }
-  }
-
-  private cerrarSeccionesExcepto(seccion: 'menor' | 'padre' | 'viaje' | 'documentos'): void {
-    if (seccion !== 'menor' && !this.tieneErroresMenor()) this.datosMenorVisible = false;
-    if (seccion !== 'padre' && !this.tieneErroresPadre()) this.datosPadreVisible = false;
-    if (seccion !== 'viaje' && !this.tieneErroresViaje()) this.datosViajeVisible = false;
-    if (seccion !== 'documentos' && !this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
-  }
 
   formatearRut(event: Event, controlName: string): void {
     const input = event.target as HTMLInputElement;
@@ -376,13 +295,6 @@ export class FormularioSolicitudComponent implements OnInit {
 
   private tieneErroresDocumentos(): boolean {
     return false; // no validaciones de adjuntos
-  }
-
-  private abrirSeccionesConErrores(): void {
-    this.datosMenorVisible = this.tieneErroresMenor();
-    this.datosPadreVisible = this.tieneErroresPadre();
-    this.datosViajeVisible = this.tieneErroresViaje();
-    this.datosDocumentosVisible = this.tieneErroresDocumentos();
   }
 
   private scrollToFirstError(): void {
