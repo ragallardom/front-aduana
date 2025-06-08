@@ -40,10 +40,20 @@ export class SolicitudAduanaService {
       payload.archivoBase64 = archivoBase64;
     }
 
-    const params = data.nombreSolicitante
-      ? new HttpParams().set('nombreSolicitante', data.nombreSolicitante)
-      : undefined;
+    let params: HttpParams | undefined;
+    if (data.nombreSolicitante) {
+      params = new HttpParams().set(
+        'nombreSolicitante',
+        data.nombreSolicitante
+      );
+    }
 
-    return this.http.post<SolicitudAduana>(this.baseUrl, payload, { params });
+    if (tipoDocumento) {
+      params = (params ?? new HttpParams()).set('tipoDocumento', tipoDocumento);
+    }
+
+    return this.http.post<SolicitudAduana>(this.baseUrl, payload, {
+      params,
+    });
   }
 }
