@@ -16,7 +16,7 @@ export class SolicitudAduanaService {
    * locales. Cuando se despliegue a producción puede apuntar a la
    * URL absoluta correspondiente.
    */
-  private readonly baseUrl = '/api/solicitudes/adjuntar';
+  private readonly baseUrl = '/api/solicitudes';
 
   constructor(private http: HttpClient) {}
 
