@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractContro
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SolicitudAduanaService } from '../../../services/solicitudes-aduana/solicitud-aduana';
-import { SolicitudAduana } from '../../../models/solicitud-aduana';
+import { SolicitudViajeMenor } from '../../../models/solicitud-viaje-menor';
 import { RouterModule } from '@angular/router';
 
 export function rutValidator(control: AbstractControl): ValidationErrors | null {
@@ -174,13 +174,26 @@ export class FormularioSolicitudComponent implements OnInit {
     }
     // Construir payload con los campos básicos
     const f = this.formulario.value;
-    const payload: Pick<SolicitudAduana,
-      'nombreSolicitante' | 'paisOrigen' | 'paisDestino' | 'fechaViaje' | 'numeroTransporte' | 'motivoViaje'> = {
-      nombreSolicitante: f.nombrePadreMadre,
-      paisOrigen: f.paisOrigen,
-      paisDestino: f.paisDestino,
+    const payload: Omit<
+      SolicitudViajeMenor,
+      'id' | 'estado' | 'fechaCreacion' | 'documentos'
+    > = {
+      tipoSolicitudMenor: f.tipoSolicitudMenor,
+      nombreMenor: f.nombreMenor,
+      fechaNacimientoMenor: f.fechaNacimientoMenor,
+      documentoMenor: f.documentoMenor,
+      numeroDocumentoMenor: f.numeroDocumentoMenor,
+      nacionalidadMenor: f.nacionalidadMenor,
+      nombrePadreMadre: f.nombrePadreMadre,
+      relacionMenor: f.relacionMenor,
+      documentoPadre: f.documentoPadre,
+      numeroDocumentoPadre: f.numeroDocumentoPadre,
+      telefonoPadre: f.telefonoPadre,
+      emailPadre: f.emailPadre,
       fechaViaje: f.fechaViaje,
       numeroTransporte: f.numeroTransporte,
+      paisOrigen: f.paisOrigen,
+      paisDestino: f.paisDestino,
       motivoViaje: f.motivoViaje,
     };
 

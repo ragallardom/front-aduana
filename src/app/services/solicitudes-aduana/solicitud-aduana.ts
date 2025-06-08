@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SolicitudAduana } from '../../models/solicitud-aduana';
+import { SolicitudViajeMenor } from '../../models/solicitud-viaje-menor';
 
 @Injectable({ providedIn: 'root' })
 export class SolicitudAduanaService {
@@ -26,11 +26,14 @@ export class SolicitudAduanaService {
    * backend sólo acepta application/json.
    */
   crearConAdjunto(
-    data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
+    data: Omit<
+      SolicitudViajeMenor,
+      'id' | 'estado' | 'fechaCreacion' | 'documentos'
+    >,
     tipoDocumento = '',
     numeroDocumento = '',
     archivoBase64 = ''
-  ): Observable<SolicitudAduana> {
+  ): Observable<SolicitudViajeMenor> {
     const payload: any = {
       ...data,
     };
@@ -42,17 +45,9 @@ export class SolicitudAduanaService {
     }
 
     let params: HttpParams | undefined;
-    if (data.nombreSolicitante) {
-      params = new HttpParams().set(
-        'nombreSolicitante',
-        data.nombreSolicitante
-      );
-    }
-
     if (tipoDocumento) {
-      params = (params ?? new HttpParams()).set('tipoDocumento', tipoDocumento);
+      params = new HttpParams().set('tipoDocumento', tipoDocumento);
     }
-
     if (numeroDocumento) {
       params = (params ?? new HttpParams()).set(
         'numeroDocumento',
@@ -60,7 +55,7 @@ export class SolicitudAduanaService {
       );
     }
 
-    return this.http.post<SolicitudAduana>(this.baseUrl, payload, {
+    return this.http.post<SolicitudViajeMenor>(this.baseUrl, payload, {
       params,
     });
   }
