@@ -100,7 +100,13 @@
           La fecha de nacimiento es obligatoria.
         </div>
         <div
-          *ngIf="formulario.get('fechaNacimientoMenor')?.hasError('menorDeEdad') && formulario.get('fechaNacimientoMenor')?.touched"
+          *ngIf="formulario.get('fechaNacimientoMenor')?.hasError('fechaFutura') && formulario.get('fechaNacimientoMenor')?.touched"
+          class="text-danger"
+        >
+          La fecha de nacimiento no puede ser mayor que la actual.
+        </div>
+        <div
+          *ngIf="formulario.get('fechaNacimientoMenor')?.hasError('mayorDeEdad') && formulario.get('fechaNacimientoMenor')?.touched"
           class="text-danger"
         >
           El menor debe tener menos de 18 años.
@@ -158,6 +164,16 @@
         class="text-danger"
       >
         Ingresa un RUT válido.
+      </div>
+      <div
+        *ngIf="
+          formulario.hasError('rutDuplicado') &&
+          formulario.get('numeroDocumentoMenor')?.touched &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        El RUT del menor debe ser distinto al del padre, madre o tutor.
       </div>
     </div>
     <div class="mb-3" *ngIf="formulario.get('documentoMenor')?.value === 'Pasaporte'">
@@ -236,10 +252,22 @@
         <label class="form-label">Fecha de viaje</label>
         <input type="date" formControlName="fechaViaje" class="form-control" />
         <div
-          *ngIf="formulario.get('fechaViaje')?.invalid && formulario.get('fechaViaje')?.touched"
+          *ngIf="formulario.get('fechaViaje')?.hasError('required') && formulario.get('fechaViaje')?.touched"
           class="text-danger"
         >
           La fecha de viaje es obligatoria.
+        </div>
+        <div
+          *ngIf="formulario.get('fechaViaje')?.hasError('fechaPasada') && formulario.get('fechaViaje')?.touched"
+          class="text-danger"
+        >
+          La fecha de viaje no puede ser anterior a hoy.
+        </div>
+        <div
+          *ngIf="formulario.get('fechaViaje')?.hasError('fechaLejana') && formulario.get('fechaViaje')?.touched"
+          class="text-danger"
+        >
+          La fecha de viaje no puede exceder un año desde hoy.
         </div>
       </div>
 

@@ -8,7 +8,7 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { SolicitudAduanaService } from '../../../services/solicitudes-aduana/solicitud-aduana';
@@ -37,7 +37,7 @@ export function rutValidator(control: AbstractControl): ValidationErrors | null 
   return dvCalc.toUpperCase() === dv.toUpperCase() ? null : { rutInvalido: true };
 }
 
-export function menorDeEdadValidator(control: AbstractControl): ValidationErrors | null {
+export function fechaNacimientoMenorValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value as string;
   if (!value) {
     return null;
@@ -46,9 +46,39 @@ export function menorDeEdadValidator(control: AbstractControl): ValidationErrors
   const hoy = new Date();
   const fecha18 = new Date(hoy.getFullYear() - 18, hoy.getMonth(), hoy.getDate());
   if (fechaNacimiento > hoy) {
-    return { menorDeEdad: true };
+    return { fechaFutura: true };
   }
-  return fechaNacimiento > fecha18 ? null : { menorDeEdad: true };
+  return fechaNacimiento > fecha18 ? null : { mayorDeEdad: true };
+}
+
+export const rutMenorDistintoPadreValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+  const docMenor = group.get('documentoMenor')?.value;
+  const docPadre = group.get('documentoPadre')?.value;
+  const rutMenor = group.get('numeroDocumentoMenor')?.value;
+  const rutPadre = group.get('numeroDocumentoPadre')?.value;
+  if (docMenor === 'RUT' && docPadre === 'RUT' && rutMenor && rutPadre && rutMenor === rutPadre) {
+    return { rutDuplicado: true };
+  }
+  return null;
+};
+
+export function fechaViajeValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value as string;
+  if (!value) {
+    return null;
+  }
+  const fechaViaje = new Date(value);
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const limite = new Date(hoy);
+  limite.setFullYear(limite.getFullYear() + 1);
+  if (fechaViaje < hoy) {
+    return { fechaPasada: true };
+  }
+  if (fechaViaje > limite) {
+    return { fechaLejana: true };
+  }
+  return null;
 }
 
 @Component({
@@ -101,29 +131,32 @@ export class FormularioSolicitudComponent implements OnInit {
 
   ngOnInit(): void {
     // 1) Construimos el FormGroup con validaciones
-    this.formulario = this.fb.group({
-      nombrePadreMadre: ['', Validators.required],
-      relacionMenor: ['', Validators.required],
-      documentoPadre: ['', Validators.required],
-      telefonoPadre: ['', Validators.required],
-      emailPadre: ['', [
-        Validators.required,
-        Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
-      ]],
-      tipoSolicitudMenor: ['', Validators.required],
-      nombreMenor: ['', Validators.required],
-      fechaNacimientoMenor: ['', [Validators.required, menorDeEdadValidator]],
-      documentoMenor: ['', Validators.required],
-      numeroDocumentoMenor: ['', Validators.required],
-      nacionalidadMenor: ['', Validators.required],
-      numeroDocumentoPadre: ['', Validators.required],
-      fechaViaje: ['', Validators.required],
-      numeroTransporte: ['', Validators.required],
-      paisOrigen: ['', Validators.required],
-      paisDestino: ['', Validators.required],
-      motivoViaje: ['', Validators.required],
-      // El input file no se asocia directamente a FormControl; lo validamos por código
-    });
+    this.formulario = this.fb.group(
+      {
+        nombrePadreMadre: ['', Validators.required],
+        relacionMenor: ['', Validators.required],
+        documentoPadre: ['', Validators.required],
+        telefonoPadre: ['', Validators.required],
+        emailPadre: [
+          Validators.required,
+          Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+        ],
+        tipoSolicitudMenor: ['', Validators.required],
+        nombreMenor: ['', Validators.required],
+        fechaNacimientoMenor: ['', [Validators.required, fechaNacimientoMenorValidator]],
+        documentoMenor: ['', Validators.required],
+        numeroDocumentoMenor: ['', Validators.required],
+        nacionalidadMenor: ['', Validators.required],
+        numeroDocumentoPadre: ['', Validators.required],
+        fechaViaje: ['', [Validators.required, fechaViajeValidator]],
+        numeroTransporte: ['', Validators.required],
+        paisOrigen: ['', Validators.required],
+        paisDestino: ['', Validators.required],
+        motivoViaje: ['', Validators.required],
+        // El input file no se asocia directamente a FormControl; lo validamos por código
+      },
+      { validators: rutMenorDistintoPadreValidator }
+    );
 
     this.formulario.get('documentoPadre')?.valueChanges.subscribe((tipo) => {
       const control = this.formulario.get('numeroDocumentoPadre');
