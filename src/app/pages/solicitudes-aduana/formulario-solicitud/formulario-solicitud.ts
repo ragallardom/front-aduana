@@ -262,7 +262,7 @@ export class FormularioSolicitudComponent implements OnInit {
   }
 
   toggleMenor(): void {
-    if (this.tieneErroresMenor()) {
+    if (this.submitAttempted && this.tieneErroresMenor()) {
       this.datosMenorVisible = true;
       return;
     }
@@ -273,7 +273,7 @@ export class FormularioSolicitudComponent implements OnInit {
   }
 
   togglePadre(): void {
-    if (this.tieneErroresPadre()) {
+    if (this.submitAttempted && this.tieneErroresPadre()) {
       this.datosPadreVisible = true;
       return;
     }
@@ -284,7 +284,7 @@ export class FormularioSolicitudComponent implements OnInit {
   }
 
   toggleViaje(): void {
-    if (this.tieneErroresViaje()) {
+    if (this.submitAttempted && this.tieneErroresViaje()) {
       this.datosViajeVisible = true;
       return;
     }
@@ -295,7 +295,7 @@ export class FormularioSolicitudComponent implements OnInit {
   }
 
   toggleDocumentos(): void {
-    if (this.tieneErroresDocumentos()) {
+    if (this.submitAttempted && this.tieneErroresDocumentos()) {
       this.datosDocumentosVisible = true;
       return;
     }
