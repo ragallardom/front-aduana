@@ -1,7 +1,7 @@
 // src/app/services/solicitudes-aduana/solicitud-aduana.service.ts
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SolicitudAduana } from '../../models/solicitud-aduana';
 
@@ -39,6 +39,11 @@ export class SolicitudAduanaService {
     if (archivoBase64) {
       payload.archivoBase64 = archivoBase64;
     }
-    return this.http.post<SolicitudAduana>(this.baseUrl, payload);
+
+    const params = data.nombreSolicitante
+      ? new HttpParams().set('nombreSolicitante', data.nombreSolicitante)
+      : undefined;
+
+    return this.http.post<SolicitudAduana>(this.baseUrl, payload, { params });
   }
 }
