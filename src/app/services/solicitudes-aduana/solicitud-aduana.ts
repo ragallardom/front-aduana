@@ -28,6 +28,7 @@ export class SolicitudAduanaService {
   crearConAdjunto(
     data: Omit<SolicitudAduana, 'id' | 'estado' | 'fechaCreacion'>,
     tipoDocumento = '',
+    numeroDocumento = '',
     archivoBase64 = ''
   ): Observable<SolicitudAduana> {
     const payload: any = {
@@ -50,6 +51,13 @@ export class SolicitudAduanaService {
 
     if (tipoDocumento) {
       params = (params ?? new HttpParams()).set('tipoDocumento', tipoDocumento);
+    }
+
+    if (numeroDocumento) {
+      params = (params ?? new HttpParams()).set(
+        'numeroDocumento',
+        numeroDocumento
+      );
     }
 
     return this.http.post<SolicitudAduana>(this.baseUrl, payload, {
