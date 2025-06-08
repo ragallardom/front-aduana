@@ -15,22 +15,9 @@
     (ngSubmit)="guardar()"
   >
     <!-- Datos del menor -->
-    <div
-      class="section-wrapper mb-4"
-      [@expandCollapse]="datosMenorVisible ? 'expanded' : 'collapsed'"
-    >
+    <div class="section-wrapper mb-4">
       <fieldset>
-        <legend class="fs-5 d-flex justify-content-between align-items-center">
-          <span>Datos del menor</span>
-          <button
-            type="button"
-            class="toggle-btn"
-            aria-label="Minimizar"
-            (click)="toggleMenor()"
-          >
-            <span [class.rotated]="datosMenorVisible">&#9660;</span>
-          </button>
-        </legend>
+        <legend class="fs-5">Datos del menor</legend>
 
       <!-- Tipo de solicitud -->
       <div class="mb-3">
@@ -233,32 +220,11 @@
 
       </fieldset>
     </div>
-  <div
-    *ngIf="!datosMenorVisible"
-    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-    (click)="toggleMenor()"
-  >
-    <span>Datos del menor</span>
-    <span class="toggle-arrow">&#9660;</span>
-  </div>
 
   <!-- Detalles del viaje -->
-  <div
-    class="section-wrapper mb-4"
-    [@expandCollapse]="datosViajeVisible ? 'expanded' : 'collapsed'"
-  >
+  <div class="section-wrapper mb-4">
     <fieldset>
-      <legend class="fs-5 d-flex justify-content-between align-items-center">
-        <span>Detalles del viaje</span>
-        <button
-          type="button"
-          class="toggle-btn"
-          aria-label="Minimizar"
-          (click)="toggleViaje()"
-        >
-          <span [class.rotated]="datosViajeVisible">&#9660;</span>
-        </button>
-      </legend>
+      <legend class="fs-5">Detalles del viaje</legend>
 
       <!-- Fecha de viaje -->
       <div class="mb-3">
@@ -347,32 +313,11 @@
       </div>
     </fieldset>
   </div>
-  <div
-    *ngIf="!datosViajeVisible"
-    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-    (click)="toggleViaje()"
-  >
-    <span>Detalles del viaje</span>
-    <span class="toggle-arrow">&#9660;</span>
-  </div>
 
   <!-- Datos de los padres o tutores legales -->
-    <div
-      class="section-wrapper mb-4"
-      [@expandCollapse]="datosPadreVisible ? 'expanded' : 'collapsed'"
-    >
+    <div class="section-wrapper mb-4">
       <fieldset>
-        <legend class="fs-5 d-flex justify-content-between align-items-center">
-          <span>Datos de los padres o tutores legales</span>
-          <button
-            type="button"
-            class="toggle-btn"
-            aria-label="Minimizar"
-            (click)="togglePadre()"
-          >
-            <span [class.rotated]="datosPadreVisible">&#9660;</span>
-          </button>
-        </legend>
+        <legend class="fs-5">Datos de los padres o tutores legales</legend>
 
       <!-- Nombre completo del padre/madre -->
       <div class="mb-3">
@@ -543,32 +488,11 @@
       </div>
       </fieldset>
     </div>
-  <div
-    *ngIf="!datosPadreVisible"
-    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-    (click)="togglePadre()"
-  >
-    <span>Datos de los padres o tutores legales</span>
-    <span class="toggle-arrow">&#9660;</span>
-  </div>
 
   <!-- Documentos Adjuntos -->
-  <div
-    class="section-wrapper mb-4"
-    [@expandCollapse]="datosDocumentosVisible ? 'expanded' : 'collapsed'"
-  >
+  <div class="section-wrapper mb-4">
     <fieldset>
-      <legend class="fs-5 d-flex justify-content-between align-items-center">
-        <span>Documentos Adjuntos</span>
-        <button
-          type="button"
-          class="toggle-btn"
-          aria-label="Minimizar"
-          (click)="toggleDocumentos()"
-        >
-          <span [class.rotated]="datosDocumentosVisible">&#9660;</span>
-        </button>
-      </legend>
+      <legend class="fs-5">Documentos Adjuntos</legend>
 
       <div class="mb-3">
         <label class="form-label">Cédula de identidad o pasaporte del menor</label>
@@ -597,14 +521,6 @@
     </fieldset>
   </div>
 
-  <div
-    *ngIf="!datosDocumentosVisible"
-    class="section-collapsed mb-4 d-flex justify-content-between align-items-center"
-    (click)="toggleDocumentos()"
-  >
-    <span>Documentos Adjuntos</span>
-    <span class="toggle-arrow">&#9660;</span>
-  </div>
 
   <!-- Botones -->
   <button
@@ -621,8 +537,8 @@
   >
     Cancelar
   </button>
-  <div *ngIf="submitAttempted && formulario.invalid" class="text-danger mt-2">
-    El formulario tiene errores en alguno de sus campos.
+  <div *ngIf="formulario.invalid" class="text-danger mt-2">
+    Hay errores en el formulario, por favor revisa los campos.
   </div>
 </form>
 </div>
