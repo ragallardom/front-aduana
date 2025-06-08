@@ -51,13 +51,17 @@ export function fechaNacimientoMenorValidator(control: AbstractControl): Validat
   return fechaNacimiento > fecha18 ? null : { mayorDeEdad: true };
 }
 
-export const rutMenorDistintoPadreValidator: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
-  const docMenor = group.get('documentoMenor')?.value;
-  const docPadre = group.get('documentoPadre')?.value;
-  const rutMenor = group.get('numeroDocumentoMenor')?.value;
-  const rutPadre = group.get('numeroDocumentoPadre')?.value;
-  if (docMenor === 'RUT' && docPadre === 'RUT' && rutMenor && rutPadre && rutMenor === rutPadre) {
-    return { rutDuplicado: true };
+export const documentosDistintosValidator: ValidatorFn = (
+  group: AbstractControl
+): ValidationErrors | null => {
+  const docMenor = group.get('numeroDocumentoMenor')?.value as string;
+  const docPadre = group.get('numeroDocumentoPadre')?.value as string;
+  if (
+    docMenor &&
+    docPadre &&
+    docMenor.trim().toLowerCase() === docPadre.trim().toLowerCase()
+  ) {
+    return { documentoDuplicado: true };
   }
   return null;
 };
@@ -138,8 +142,8 @@ export class FormularioSolicitudComponent implements OnInit {
         documentoPadre: ['', Validators.required],
         telefonoPadre: ['', Validators.required],
         emailPadre: [
-          Validators.required,
-          Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/),
+          '',
+          [Validators.required, Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)],
         ],
         tipoSolicitudMenor: ['', Validators.required],
         nombreMenor: ['', Validators.required],
@@ -155,7 +159,7 @@ export class FormularioSolicitudComponent implements OnInit {
         motivoViaje: ['', Validators.required],
         // El input file no se asocia directamente a FormControl; lo validamos por código
       },
-      { validators: rutMenorDistintoPadreValidator }
+      { validators: documentosDistintosValidator }
     );
 
     this.formulario.get('documentoPadre')?.valueChanges.subscribe((tipo) => {
@@ -203,6 +207,8 @@ export class FormularioSolicitudComponent implements OnInit {
     // Validar campos
     if (this.formulario.invalid) {
       this.formulario.markAllAsTouched();
+      this.abrirSeccionesConErrores();
+      this.scrollToFirstError();
       return;
     }
     // Construir payload con los campos básicos
@@ -240,7 +246,7 @@ export class FormularioSolicitudComponent implements OnInit {
       )
       .subscribe({
         next: () => {
-          // Al éxito, navegamos al listado
+          alert('Solicitud enviada correctamente.');
           this.router.navigate(['/solicitud-aduana']);
         },
         error: (err) => {
@@ -253,18 +259,38 @@ export class FormularioSolicitudComponent implements OnInit {
 
   toggleMenor(): void {
     this.datosMenorVisible = !this.datosMenorVisible;
+    if (this.datosMenorVisible) {
+      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
+      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
+      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+    }
   }
 
   togglePadre(): void {
     this.datosPadreVisible = !this.datosPadreVisible;
+    if (this.datosPadreVisible) {
+      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
+      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
+      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+    }
   }
 
   toggleViaje(): void {
     this.datosViajeVisible = !this.datosViajeVisible;
+    if (this.datosViajeVisible) {
+      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
+      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
+      if (!this.tieneErroresDocumentos()) this.datosDocumentosVisible = false;
+    }
   }
 
   toggleDocumentos(): void {
     this.datosDocumentosVisible = !this.datosDocumentosVisible;
+    if (this.datosDocumentosVisible) {
+      if (!this.tieneErroresMenor()) this.datosMenorVisible = false;
+      if (!this.tieneErroresPadre()) this.datosPadreVisible = false;
+      if (!this.tieneErroresViaje()) this.datosViajeVisible = false;
+    }
   }
 
   formatearRut(event: Event, controlName: string): void {
@@ -293,6 +319,58 @@ export class FormularioSolicitudComponent implements OnInit {
     if (input.files && input.files.length > 0) {
       this.adjuntos[tipo] = input.files[0];
     }
+  }
+
+  private tieneErroresMenor(): boolean {
+    return (
+      this.formulario.get('tipoSolicitudMenor')?.invalid ||
+      this.formulario.get('nombreMenor')?.invalid ||
+      this.formulario.get('fechaNacimientoMenor')?.invalid ||
+      this.formulario.get('documentoMenor')?.invalid ||
+      this.formulario.get('numeroDocumentoMenor')?.invalid ||
+      this.formulario.get('nacionalidadMenor')?.invalid ||
+      this.formulario.hasError('documentoDuplicado')
+    );
+  }
+
+  private tieneErroresPadre(): boolean {
+    return (
+      this.formulario.get('nombrePadreMadre')?.invalid ||
+      this.formulario.get('relacionMenor')?.invalid ||
+      this.formulario.get('documentoPadre')?.invalid ||
+      this.formulario.get('numeroDocumentoPadre')?.invalid ||
+      this.formulario.get('telefonoPadre')?.invalid ||
+      this.formulario.get('emailPadre')?.invalid ||
+      this.formulario.hasError('documentoDuplicado')
+    );
+  }
+
+  private tieneErroresViaje(): boolean {
+    return (
+      this.formulario.get('fechaViaje')?.invalid ||
+      this.formulario.get('numeroTransporte')?.invalid ||
+      this.formulario.get('paisOrigen')?.invalid ||
+      this.formulario.get('paisDestino')?.invalid ||
+      this.formulario.get('motivoViaje')?.invalid
+    );
+  }
+
+  private tieneErroresDocumentos(): boolean {
+    return false; // no validaciones de adjuntos
+  }
+
+  private abrirSeccionesConErrores(): void {
+    this.datosMenorVisible = this.tieneErroresMenor();
+    this.datosPadreVisible = this.tieneErroresPadre();
+    this.datosViajeVisible = this.tieneErroresViaje();
+    this.datosDocumentosVisible = this.tieneErroresDocumentos();
+  }
+
+  private scrollToFirstError(): void {
+    setTimeout(() => {
+      const first = document.querySelector('.ng-invalid') as HTMLElement;
+      first?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 0);
   }
 
   cancelar(): void {

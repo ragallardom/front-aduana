@@ -167,13 +167,13 @@
       </div>
       <div
         *ngIf="
-          formulario.hasError('rutDuplicado') &&
+          formulario.hasError('documentoDuplicado') &&
           formulario.get('numeroDocumentoMenor')?.touched &&
           formulario.get('numeroDocumentoPadre')?.touched
         "
         class="text-danger"
       >
-        El RUT del menor debe ser distinto al del padre, madre o tutor.
+        El documento del menor debe ser distinto al del padre, madre o tutor.
       </div>
     </div>
     <div class="mb-3" *ngIf="formulario.get('documentoMenor')?.value === 'Pasaporte'">
@@ -191,6 +191,16 @@
         class="text-danger"
       >
         El número de pasaporte es obligatorio.
+      </div>
+      <div
+        *ngIf="
+          formulario.hasError('documentoDuplicado') &&
+          formulario.get('numeroDocumentoMenor')?.touched &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        El documento del menor debe ser distinto al del padre, madre o tutor.
       </div>
     </div>
 
@@ -452,6 +462,16 @@
       >
         Ingresa un RUT válido.
       </div>
+      <div
+        *ngIf="
+          formulario.hasError('documentoDuplicado') &&
+          formulario.get('numeroDocumentoMenor')?.touched &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        El documento del menor debe ser distinto al del padre, madre o tutor.
+      </div>
     </div>
     <div class="mb-3" *ngIf="formulario.get('documentoPadre')?.value === 'Pasaporte'">
       <label class="form-label">Pasaporte del padre o tutor</label>
@@ -468,6 +488,16 @@
         class="text-danger"
       >
         El número de pasaporte es obligatorio.
+      </div>
+      <div
+        *ngIf="
+          formulario.hasError('documentoDuplicado') &&
+          formulario.get('numeroDocumentoMenor')?.touched &&
+          formulario.get('numeroDocumentoPadre')?.touched
+        "
+        class="text-danger"
+      >
+        El documento del menor debe ser distinto al del padre, madre o tutor.
       </div>
     </div>
 
