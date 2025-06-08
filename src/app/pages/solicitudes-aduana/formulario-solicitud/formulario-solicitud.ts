@@ -323,35 +323,35 @@ export class FormularioSolicitudComponent implements OnInit {
 
   private tieneErroresMenor(): boolean {
     return (
-      this.formulario.get('tipoSolicitudMenor')?.invalid ||
-      this.formulario.get('nombreMenor')?.invalid ||
-      this.formulario.get('fechaNacimientoMenor')?.invalid ||
-      this.formulario.get('documentoMenor')?.invalid ||
-      this.formulario.get('numeroDocumentoMenor')?.invalid ||
-      this.formulario.get('nacionalidadMenor')?.invalid ||
-      this.formulario.hasError('documentoDuplicado')
+      !!this.formulario.get('tipoSolicitudMenor')?.invalid ||
+      !!this.formulario.get('nombreMenor')?.invalid ||
+      !!this.formulario.get('fechaNacimientoMenor')?.invalid ||
+      !!this.formulario.get('documentoMenor')?.invalid ||
+      !!this.formulario.get('numeroDocumentoMenor')?.invalid ||
+      !!this.formulario.get('nacionalidadMenor')?.invalid ||
+      !!this.formulario.hasError('documentoDuplicado')
     );
   }
 
   private tieneErroresPadre(): boolean {
     return (
-      this.formulario.get('nombrePadreMadre')?.invalid ||
-      this.formulario.get('relacionMenor')?.invalid ||
-      this.formulario.get('documentoPadre')?.invalid ||
-      this.formulario.get('numeroDocumentoPadre')?.invalid ||
-      this.formulario.get('telefonoPadre')?.invalid ||
-      this.formulario.get('emailPadre')?.invalid ||
-      this.formulario.hasError('documentoDuplicado')
+      !!this.formulario.get('nombrePadreMadre')?.invalid ||
+      !!this.formulario.get('relacionMenor')?.invalid ||
+      !!this.formulario.get('documentoPadre')?.invalid ||
+      !!this.formulario.get('numeroDocumentoPadre')?.invalid ||
+      !!this.formulario.get('telefonoPadre')?.invalid ||
+      !!this.formulario.get('emailPadre')?.invalid ||
+      !!this.formulario.hasError('documentoDuplicado')
     );
   }
 
   private tieneErroresViaje(): boolean {
     return (
-      this.formulario.get('fechaViaje')?.invalid ||
-      this.formulario.get('numeroTransporte')?.invalid ||
-      this.formulario.get('paisOrigen')?.invalid ||
-      this.formulario.get('paisDestino')?.invalid ||
-      this.formulario.get('motivoViaje')?.invalid
+      !!this.formulario.get('fechaViaje')?.invalid ||
+      !!this.formulario.get('numeroTransporte')?.invalid ||
+      !!this.formulario.get('paisOrigen')?.invalid ||
+      !!this.formulario.get('paisDestino')?.invalid ||
+      !!this.formulario.get('motivoViaje')?.invalid
     );
   }
 
