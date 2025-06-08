@@ -6,6 +6,9 @@
   <div *ngIf="errorMsg" class="alert alert-danger">
     {{ errorMsg }}
   </div>
+  <div *ngIf="successMsg" class="alert alert-success">
+    {{ successMsg }}
+  </div>
 
   <form
     [formGroup]="formulario"
@@ -609,7 +612,7 @@
     class="btn btn-primary me-2"
     [disabled]="formulario.invalid"
   >
-    Guardar Solicitud
+    Enviar Solicitud
   </button>
   <button
     type="button"
@@ -618,5 +621,8 @@
   >
     Cancelar
   </button>
+  <div *ngIf="submitAttempted && formulario.invalid" class="text-danger mt-2">
+    El formulario tiene errores en alguno de sus campos.
+  </div>
 </form>
 </div>
