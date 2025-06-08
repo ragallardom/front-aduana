@@ -184,7 +184,7 @@ export class FormularioSolicitudComponent implements OnInit {
       motivoViaje: f.motivoViaje,
     };
 
-    const adjunto = this.adjuntos.idMenor;
+    const adjunto = this.adjuntos['idMenor'];
     const enviar = (base64?: string) =>
       this.service
         .crearConAdjunto(payload, 'idMenor', base64 ?? '')
