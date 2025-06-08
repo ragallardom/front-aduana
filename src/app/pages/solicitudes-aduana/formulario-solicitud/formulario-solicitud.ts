@@ -184,18 +184,35 @@ export class FormularioSolicitudComponent implements OnInit {
       motivoViaje: f.motivoViaje,
     };
 
-    this.service
-      .crearConAdjunto(payload)
-      .subscribe({
-        next: () => {
-          // Al éxito, navegamos al listado
-          this.router.navigate(['/solicitud-aduana']);
-        },
-        error: (err) => {
-          console.error('Error al crear solicitud:', err);
-          this.errorMsg = 'Ocurrió un error al crear la solicitud.';
-        },
-      });
+    const adjunto = this.adjuntos.idMenor;
+    const enviar = (base64?: string) =>
+      this.service
+        .crearConAdjunto(payload, 'idMenor', base64 ?? '')
+        .subscribe({
+          next: () => {
+            // Al éxito, navegamos al listado
+            this.router.navigate(['/solicitud-aduana']);
+          },
+          error: (err) => {
+            console.error('Error al crear solicitud:', err);
+            this.errorMsg = 'Ocurrió un error al crear la solicitud.';
+          },
+        });
+
+    if (adjunto) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const resultado = reader.result as string;
+        // Extraer la porción base64 si el resultado viene como data URL
+        const base64 = resultado.includes(',')
+          ? resultado.split(',')[1]
+          : resultado;
+        enviar(base64);
+      };
+      reader.readAsDataURL(adjunto);
+    } else {
+      enviar();
+    }
 
   }
 
