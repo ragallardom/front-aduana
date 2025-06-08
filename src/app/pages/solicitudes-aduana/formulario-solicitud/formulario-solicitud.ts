@@ -187,7 +187,12 @@ export class FormularioSolicitudComponent implements OnInit {
     const adjunto = this.adjuntos['idMenor'];
     const enviar = (base64?: string) =>
       this.service
-        .crearConAdjunto(payload, 'idMenor', base64 ?? '')
+        .crearConAdjunto(
+          payload,
+          'idMenor',
+          f.numeroDocumentoMenor,
+          base64 ?? ''
+        )
         .subscribe({
           next: () => {
             // Al éxito, navegamos al listado
