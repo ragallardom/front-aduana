@@ -45,8 +45,14 @@ export class SolicitudAduanaService {
     }
 
     let params: HttpParams | undefined;
+    if (data.nombrePadreMadre) {
+      params = new HttpParams().set(
+        'nombreSolicitante',
+        data.nombrePadreMadre
+      );
+    }
     if (tipoDocumento) {
-      params = new HttpParams().set('tipoDocumento', tipoDocumento);
+      params = (params ?? new HttpParams()).set('tipoDocumento', tipoDocumento);
     }
     if (numeroDocumento) {
       params = (params ?? new HttpParams()).set(
